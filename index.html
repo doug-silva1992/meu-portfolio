@@ -8,8 +8,79 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
         <link href="css/style.css" rel="stylesheet">
+        <style>
+            .language-switcher {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 1050;
+                background: rgba(26, 26, 46, 0.95);
+                border: 2px solid #6366f1;
+                border-radius: 50px;
+                padding: 8px 20px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+                transition: all 0.3s ease;
+            }
+            
+            .language-switcher:hover {
+                background: rgba(26, 26, 46, 1);
+                box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+                transform: translateY(-2px);
+            }
+            
+            .language-switcher button {
+                background: none;
+                border: none;
+                color: #a0a0c0;
+                font-size: 14px;
+                font-weight: 600;
+                cursor: pointer;
+                padding: 5px 10px;
+                border-radius: 20px;
+                transition: all 0.3s ease;
+                text-transform: uppercase;
+            }
+            
+            .language-switcher button:hover {
+                color: #fff;
+            }
+            
+            .language-switcher button.active {
+                background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+                color: #fff;
+            }
+            
+            .language-switcher i {
+                color: #6366f1;
+                font-size: 16px;
+            }
+
+            @media (max-width: 768px) {
+                .language-switcher {
+                    top: 10px;
+                    right: 10px;
+                    padding: 6px 15px;
+                }
+                
+                .language-switcher button {
+                    font-size: 12px;
+                    padding: 4px 8px;
+                }
+            }
+        </style>
     </head>
     <body>
+        <!-- Botão de troca de idioma -->
+        <div class="language-switcher">
+            <i class="bi bi-translate"></i>
+            <button onclick="changeLanguage('pt')" class="active" id="btn-pt">PT</button>
+            <button onclick="changeLanguage('en')" id="btn-en">EN</button>
+            <button onclick="changeLanguage('es')" id="btn-es">ES</button>
+        </div>
+
         <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
             <div class="container">
                 <a class="navbar-brand" href="#home">DVS</a>
@@ -19,23 +90,23 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="#home">Início</a>
+                            <a class="nav-link" href="#home" data-pt="Início" data-en="Home" data-es="Inicio">Início</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#about">Sobre</a>
+                            <a class="nav-link" href="#about" data-pt="Sobre" data-en="About" data-es="Acerca de">Sobre</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#professional_experience">Experiência Profissional</a>
+                            <a class="nav-link" href="#professional_experience" data-pt="Experiência Profissional" data-en="Professional Experience" data-es="Experiencia Profesional">Experiência Profissional</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#projects">Projetos</a>
+                            <a class="nav-link" href="#projects" data-pt="Projetos" data-en="Projects" data-es="Proyectos">Projetos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#contact">Contato</a>
+                            <a class="nav-link" href="#contact" data-pt="Contato" data-en="Contact" data-es="Contacto">Contato</a>
                         </li>
 
                         <li class="nav-item d-flex align-items-center">
-                            <a class="nav-link btn btn-sm btn-outline-custom ms-2" href="curriculo/Douglas.pdf" download>
+                            <a class="nav-link btn btn-sm btn-outline-custom ms-2" href="curriculo/Douglas.pdf" download data-pt="Baixar CV" data-en="Download CV" data-es="Descargar CV">
                                 Baixar CV
                             </a>
                         </li>
@@ -48,16 +119,16 @@
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-8 hero-content">
-                        <div class="hero-subtitle">Desenvolvedor Full Stack</div>
+                        <div class="hero-subtitle" data-pt="Desenvolvedor Full Stack" data-en="Full Stack Developer" data-es="Desarrollador Full Stack">Desenvolvedor Full Stack</div>
                         <h1 class="hero-title">Douglas Valverde da Silva</h1>
-                        <p class="hero-description">
+                        <p class="hero-description" data-pt="Transformo ideias em soluções digitais elegantes e funcionais. Especializado em criar experiências web modernas que fazem a diferença." data-en="I transform ideas into elegant and functional digital solutions. Specialized in creating modern web experiences that make a difference." data-es="Transformo ideas en soluciones digitales elegantes y funcionales. Especializado en crear experiencias web modernas que marcan la diferencia.">
                             Transformo ideias em soluções digitais elegantes e funcionais. 
                             Especializado em criar experiências web modernas que fazem a diferença.
                         </p>
                         <div class="d-flex gap-3 flex-wrap">
-                            <a href="#professional_experience" class="btn btn-custom btn-primary-custom">Experiência Profisssional</a>
-                            <a href="#projects" class="btn btn-custom btn-outline-custom">Ver Projetos</a>
-                            <a href="#contact" class="btn btn-custom btn-outline-custom">Entrar em Contato</a>
+                            <a href="#professional_experience" class="btn btn-custom btn-primary-custom" data-pt="Experiência Profisssional" data-en="Professional Experience" data-es="Experiencia Profesional">Experiência Profisssional</a>
+                            <a href="#projects" class="btn btn-custom btn-outline-custom" data-pt="Ver Projetos" data-en="View Projects" data-es="Ver Proyectos">Ver Projetos</a>
+                            <a href="#contact" class="btn btn-custom btn-outline-custom" data-pt="Entrar em Contato" data-en="Get in Touch" data-es="Ponerse en Contacto">Entrar em Contato</a>
                         </div>
                     </div>
                 </div>
@@ -73,22 +144,22 @@
                         </div>
                     </div>
                     <div class="col-lg-6 fade-in">
-                        <h2 class="section-title">Sobre Mim</h2>
-                        <p class="section-subtitle">Conheça minha trajetória</p>
+                        <h2 class="section-title" data-pt="Sobre Mim" data-en="About Me" data-es="Sobre Mí">Sobre Mim</h2>
+                        <p class="section-subtitle" data-pt="Conheça minha trajetória" data-en="Know my journey" data-es="Conoce mi trayectoria">Conheça minha trajetória</p>
                         <div class="about-text">
-                            <p>
+                            <p data-pt="Olá! me chamo Douglas Valverde da Silva, um desenvolvedor apaixonado por criar soluções web inovadoras e eficientes. Com mais de 5 anos de experiência, trabalho transformando conceitos complexos em interfaces intuitivas e funcionais." data-en="Hello! My name is Douglas Valverde da Silva, a developer passionate about creating innovative and efficient web solutions. With over 5 years of experience, I work transforming complex concepts into intuitive and functional interfaces." data-es="¡Hola! Me llamo Douglas Valverde da Silva, un desarrollador apasionado por crear soluciones web innovadoras y eficientes. Con más de 5 años de experiencia, trabajo transformando conceptos complejos en interfaces intuitivas y funcionales.">
                                 Olá! me chamo Douglas Valverde da Silva, um desenvolvedor apaixonado por criar soluções web 
                                 inovadoras e eficientes. Com mais de 5 anos de experiência, trabalho 
                                 transformando conceitos complexos em interfaces intuitivas e funcionais.
                             </p>
-                            <p>
+                            <p data-pt="Minha jornada na programação começou com curiosidade e evoluiu para uma carreira dedicada a resolver problemas reais através da tecnologia. Acredito que código bem escrito é uma forma de arte." data-en="My journey in programming started with curiosity and evolved into a career dedicated to solving real problems through technology. I believe that well-written code is a form of art." data-es="Mi trayectoria en programación comenzó con curiosidad y evolucionó hacia una carrera dedicada a resolver problemas reales a través de la tecnología. Creo que el código bien escrito es una forma de arte.">
                                 Minha jornada na programação começou com curiosidade e evoluiu para 
                                 uma carreira dedicada a resolver problemas reais através da tecnologia. 
                                 Acredito que código bem escrito é uma forma de arte.
                             </p>
                         </div>
 
-                        <h4 class="text-white mt-4 mb-3">Tecnologias que domino:</h4>
+                        <h4 class="text-white mt-4 mb-3" data-pt="Tecnologias que domino:" data-en="Technologies I master:" data-es="Tecnologías que domino:">Tecnologias que domino:</h4>
                         <div class="skills-list">
                             <div class="skill-item">
                                 <i class="bi bi-filetype-html"></i>
@@ -131,8 +202,8 @@
         <section id="professional_experience" class="projects-section">
             <div class="container">
                 <div class="text-center mb-5 fade-in">
-                    <h2 class="section-title">Experiência Profissional</h2>
-                    <p class="section-subtitle">Empresas onde trabalhei e principais responsabilidades</p>
+                    <h2 class="section-title" data-pt="Experiência Profissional" data-en="Professional Experience" data-es="Experiencia Profesional">Experiência Profissional</h2>
+                    <p class="section-subtitle" data-pt="Empresas onde trabalhei e principais responsabilidades" data-en="Companies where I worked and main responsibilities" data-es="Empresas donde trabajé y principales responsabilidades">Empresas onde trabalhei e principais responsabilidades</p>
                 </div>
 
                 <div class="row g-4">
@@ -149,22 +220,16 @@
                             </div>
                             <div class="card-body">
                                 <h3 class="card-title">Elev Tecnologia</h3>
-                                <p class="card-text">
-                                    Programador de Sistemas de Informação Pleno — Out 2019 &ndash; Out 2025.<br>
-                                    Desenvolvi sistema de PABX com PostgreSQL, PHP e JavaScript.
-                                    Atuei na criação de sistema de gestão de qualidade com IA, usando PHP, PostgreSQL e N8N.
-                                    Construí interfaces em React JS, priorizando performance e experiência dinâmica.
+                                <p class="card-text" data-pt="Desenvolvimento de sistemas web para gestão empresarial, incluindo módulos de controle financeiro, estoque e relatórios gerenciais. Implementação de APIs RESTful e integração com serviços externos." data-en="Development of web systems for business management, including financial control modules, inventory and management reports. Implementation of RESTful APIs and integration with external services." data-es="Desarrollo de sistemas web para gestión empresarial, incluyendo módulos de control financiero, inventario e informes gerenciales. Implementación de APIs RESTful e integración con servicios externos.">
+                                    Desenvolvimento de sistemas web para gestão empresarial, 
+                                    incluindo módulos de controle financeiro, estoque e relatórios 
+                                    gerenciais. Implementação de APIs RESTful e integração com 
+                                    serviços externos.
                                 </p>
                                 <div class="tech-tags">
-                                    <span class="tech-tag">HTML5</span>
-                                    <span class="tech-tag">CSS3</span>
-                                    <span class="tech-tag">PHP</span>
-                                    <span class="tech-tag">JavaScript</span>
                                     <span class="tech-tag">React</span>
                                     <span class="tech-tag">Node.js</span>
                                     <span class="tech-tag">PostgreSQL</span>
-                                    <span class="tech-tag">N8N</span>
-                                    <span class="tech-tag">Bootstrap</span>
                                 </div>
                             </div>
                         </div>
@@ -183,7 +248,18 @@
                             </div>
                             <div class="card-body">
                                 <h3 class="card-title">Verisys</h3>
-                                <p class="card-text">
+                                <p class="card-text" data-pt="Desenvolvi URAS inteligentes para clientes, incluindo pesquisas de satisfação e integração com servidores.
+                                                              Participei de reuniões de requisitos, elaborando fluxogramas e documentos de entrega de software.
+                                                              Prestei suporte às URAS próprias e legadas, garantindo manutenção e evolução contínua.
+                                                              Implementei melhorias no CRM, adicionando campos para análise detalhada de chamados." 
+                                                     data-en="I developed intelligent IVRs for clients, including satisfaction surveys and server integration.
+                                                              I participated in requirements meetings, creating flowcharts and software delivery documents.
+                                                              I provided support for proprietary and legacy IVRs, ensuring maintenance and continuous improvement.
+                                                              I implemented improvements to the CRM, adding fields for detailed call analysis." 
+                                                     data-es="Desarrollé sistemas de respuesta de voz interactiva (IVR) inteligentes para clientes, incluyendo encuestas de satisfacción e integración de servidores.
+                                                              Participé en reuniones de requisitos, creando diagramas de flujo y documentos de entrega de software.
+                                                              Brindé soporte para sistemas de respuesta de voz interactivos (IVR) propietarios y heredados, garantizando el mantenimiento y la mejora continua.
+                                                              Implementé mejoras en el CRM, añadiendo campos para el análisis detallado de las llamadas.">
                                     Estagiário em Programação — Jan 2018 &ndash; Out 2019.<br>
                                     Desenvolvi URAS inteligentes para clientes, incluindo pesquisas de satisfação e integração com servidores.
                                     Participei de reuniões de requisitos, elaborando fluxogramas e documentos de entrega de software.
@@ -198,16 +274,16 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>                    
                 </div>
             </div>
         </section>
 
-        <section id="projects" class="about-section">
+        <section id="projects" class="projects-section">
             <div class="container">
                 <div class="text-center mb-5 fade-in">
-                    <h2 class="section-title">Meus Projetos</h2>
-                    <p class="section-subtitle">Trabalhos recentes que orgulhosamente desenvolvi</p>
+                    <h2 class="section-title" data-pt="Projetos em Destaque" data-en="Featured Projects" data-es="Proyectos Destacados">Projetos em Destaque</h2>
+                    <p class="section-subtitle" data-pt="Alguns dos trabalhos que mais me orgulho" data-en="Some of the works I'm most proud of" data-es="Algunos de los trabajos de los que más me enorgullezco">Alguns dos trabalhos que mais me orgulho</p>
                 </div>
 
                 <div class="row g-4">
@@ -223,15 +299,16 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <h3 class="card-title">Dashboard Analytics</h3>
-                                <p class="card-text">
-                                    Painel administrativo completo com visualização de dados em tempo real, 
-                                    gráficos interativos e gestão de usuários.
+                                <h3 class="card-title" data-pt="Dashboard Analítico" data-en="Analytics Dashboard" data-es="Dashboard Analítico">Dashboard Analítico</h3>
+                                <p class="card-text" data-pt="Plataforma completa de análise de dados com visualizações interativas, relatórios personalizáveis e integração com múltiplas fontes de dados." data-en="Complete data analysis platform with interactive visualizations, customizable reports and integration with multiple data sources." data-es="Plataforma completa de análise de dados com visualizações interativas, relatórios personalizáveis e integração com múltiplas fontes de dados.">
+                                    Plataforma completa de análise de dados com visualizações 
+                                    interativas, relatórios personalizáveis e integração com 
+                                    múltiplas fontes de dados.
                                 </p>
                                 <div class="tech-tags">
                                     <span class="tech-tag">React</span>
+                                    <span class="tech-tag">D3.js</span>
                                     <span class="tech-tag">Node.js</span>
-                                    <span class="tech-tag">MongoDB</span>
                                 </div>
                             </div>
                         </div>
@@ -240,7 +317,7 @@
                     <div class="col-lg-4 col-md-6 fade-in">
                         <div class="card project-card">
                             <div class="project-image">
-                                <img src="https://images.unsplash.com/photo-1557821552-17105176677c?w=600&h=400&fit=crop" alt="Projeto 2">
+                                <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop" alt="Projeto 2">
                                 <div class="project-overlay">
                                     <div class="project-links">
                                         <a href="#" title="Ver código"><i class="bi bi-github"></i></a>
@@ -249,10 +326,10 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <h3 class="card-title">E-commerce Moderno</h3>
-                                <p class="card-text">
-                                    Plataforma de vendas online responsiva com carrinho de compras, 
-                                    pagamentos integrados e painel administrativo.
+                                <h3 class="card-title" data-pt="E-commerce Moderno" data-en="Modern E-commerce" data-es="E-commerce Moderno">E-commerce Moderno</h3>
+                                <p class="card-text" data-pt="Loja virtual completa com carrinho de compras, sistema de pagamentos, gestão de produtos e painel administrativo robusto." data-en="Complete virtual store with shopping cart, payment system, product management and robust administrative panel." data-es="Loja virtual completa com carrinho de compras, sistema de pagamentos, gestão de produtos e painel administrativo robusto.">
+                                    Loja virtual completa com carrinho de compras, sistema de 
+                                    pagamentos, gestão de produtos e painel administrativo robusto.
                                 </p>
                                 <div class="tech-tags">
                                     <span class="tech-tag">Vue.js</span>
@@ -275,8 +352,8 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <h3 class="card-title">App de Produtividade</h3>
-                                <p class="card-text">
+                                <h3 class="card-title" data-pt="App de Produtividade" data-en="Productivity App" data-es="App de Produtividade">App de Produtividade</h3>
+                                <p class="card-text" data-pt="Aplicação para gerenciamento de tarefas e projetos com sistema de notificações e colaboração em equipe." data-en="Application for task and project management with notification system and team collaboration." data-es="Aplicação para gerenciamento de tarefas e projetos com sistema de notificações e colaboração em equipe.">
                                     Aplicação para gerenciamento de tarefas e projetos com 
                                     sistema de notificações e colaboração em equipe.
                                 </p>
@@ -295,8 +372,8 @@
         <section id="contact" class="contact-section">
             <div class="container">
                 <div class="text-center mb-4 fade-in">
-                    <h2 class="section-title">Entre em Contato</h2>
-                    <p class="section-subtitle">Vamos conversar sobre seu próximo projeto</p>
+                    <h2 class="section-title" data-pt="Entre em Contato" data-en="Get in Touch" data-es="Entre em Contato">Entre em Contato</h2>
+                    <p class="section-subtitle" data-pt="Vamos conversar sobre seu próximo projeto" data-en="Let's talk about your next project" data-es="Vamos conversar sobre seu próximo projeto">Vamos conversar sobre seu próximo projeto</p>
                 </div>
 
                 <div class="row g-4">
@@ -306,14 +383,14 @@
                                 <i class="bi bi-envelope-fill" aria-hidden="true"></i>
                                 <div class="contact-meta">
                                     <div class="label">Email</div>
-                                    <a href="mailto:doug.valverde.silva@gmail.com">doug.valverde.silva@gmail.com</a>
+                                    <a href="/cdn-cgi/l/email-protection#20040f15074e16010c16051204054e13090c160120070d01090c4e030f0d"><span class="__cf_email__" data-cfemail="64000b11034a12050812011600014a170d081205240309050d084a070b09">[email&#160;protected]</span></a>
                                 </div>
                             </div>
 
                             <div class="contact-card">
                                 <i class="bi bi-telephone-fill" aria-hidden="true"></i>
                                 <div class="contact-meta">
-                                    <div class="label">Telefone</div>
+                                    <div class="label" data-pt="Telefone" data-en="Phone" data-es="Teléfono">Telefone</div>
                                     <a href="tel:+5511978296179">+55 11 97829-6179</a>
                                 </div>
                             </div>
@@ -321,8 +398,8 @@
                             <div class="contact-card">
                                 <i class="bi bi-geo-alt-fill" aria-hidden="true"></i>
                                 <div class="contact-meta">
-                                    <div class="label">Localização</div>
-                                    <p>São Paulo, SP - Brasil</p>
+                                    <div class="label" data-pt="Localização" data-en="Location" data-es="Ubicación">Localização</div>
+                                    <p data-pt="São Paulo, SP - Brasil" data-en="São Paulo, SP - Brazil" data-es="São Paulo, SP - Brasil">São Paulo, SP - Brasil</p>
                                 </div>
                             </div>
 
@@ -370,14 +447,14 @@
 
                     <div class="col-lg-5 fade-in">
                         <div class="contact-info">
-                            <h4 class="text-white mb-3">Disponibilidade</h4>
-                            <p class="text-light">Aberto a oportunidades CLT, PJ e freelances. Respondo mensagens em até 48 horas.</p>
+                            <h4 class="text-white mb-3" data-pt="Disponibilidade" data-en="Availability" data-es="Disponibilidad">Disponibilidade</h4>
+                            <p class="text-light" data-pt="Aberto a oportunidades CLT, PJ e freelances. Respondo mensagens em até 48 horas." data-en="Open to CLT, PJ and freelance opportunities. I respond to messages within 48 hours." data-es="Abierto a oportunidades CLT, PJ y freelance. Respondo mensajes en hasta 48 horas.">Aberto a oportunidades CLT, PJ e freelances. Respondo mensagens em até 48 horas.</p>
 
-                            <h4 class="text-white mt-4 mb-3">Áreas de atuação</h4>
+                            <h4 class="text-white mt-4 mb-3" data-pt="Áreas de atuação" data-en="Areas of expertise" data-es="Áreas de especialización">Áreas de atuação</h4>
                             <ul class="text-light">
-                                <li>Desenvolvimento Full Stack (React / Node.js)</li>
-                                <li>APIs e integração de sistemas</li>
-                                <li>Bancos de dados (PostgreSQL)</li>
+                                <li data-pt="Desenvolvimento Full Stack (React / Node.js)" data-en="Full Stack Development (React / Node.js)" data-es="Desarrollo Full Stack (React / Node.js)">Desenvolvimento Full Stack (React / Node.js)</li>
+                                <li data-pt="APIs e integração de sistemas" data-en="APIs and system integration" data-es="APIs e integración de sistemas">APIs e integração de sistemas</li>
+                                <li data-pt="Bancos de dados (PostgreSQL)" data-en="Databases (PostgreSQL)" data-es="Bases de datos (PostgreSQL)">Bancos de dados (PostgreSQL)</li>
                             </ul>
                         </div>
                     </div>
@@ -393,11 +470,76 @@
                     <a href="https://www.tiktok.com/@douglassilvaprogramador" title="Tiktok"><i class="bi bi-tiktok"></i></a>
                     <a href="https://www.instagram.com/doug.programacao1992/" title="Instagram"><i class="bi bi-instagram"></i></a>
                 </div>
-                <p class="mb-0">&copy; 2026 Douglas Valverde da Silva. Desenvolvido com suor e muito café.</p>
+                <p class="mb-0" data-pt="© 2026 Douglas Valverde da Silva. Desenvolvido com suor e muito café." data-en="© 2026 Douglas Valverde da Silva. Developed with sweat and lots of coffee." data-es="© 2026 Douglas Valverde da Silva. Desarrollado con sudor y mucho café.">&copy; 2026 Douglas Valverde da Silva. Desenvolvido com suor e muito café.</p>
             </div>
         </footer>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="js/script.js"></script>
+        <script>
+            let currentLanguage = 'pt';
+
+            function changeLanguage(lang) {
+                currentLanguage = lang;
+                
+                document.getElementById('btn-pt').classList.toggle('active', lang === 'pt');
+                document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+                document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+                
+                let htmlLang = 'pt-BR';
+                if (lang === 'en') htmlLang = 'en';
+                if (lang === 'es') htmlLang = 'es';
+                document.documentElement.lang = htmlLang;
+
+                document.querySelectorAll('[data-pt][data-en]').forEach(element => {
+                    const text = element.getAttribute(`data-${lang}`);
+                    if (text) {
+                        element.textContent = text;
+                    }
+                });
+
+                localStorage.setItem('preferredLanguage', lang);
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                const savedLanguage = localStorage.getItem('preferredLanguage');
+                if (savedLanguage) {
+                    changeLanguage(savedLanguage);
+                }
+            });
+
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        </script>
     </body>
 </html>
