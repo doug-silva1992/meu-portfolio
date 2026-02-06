@@ -64,68 +64,60 @@
                 font-size: 16px;
             }
 
-            /* Responsividade: em telas pequenas reposicionar para abaixo da navbar e reduzir espaçamento */
-            @media (max-width: 768px) {
+            /* Seletor mobile (dentro da navbar, ao lado do logo) — escondido por padrão */
+            .language-switcher-mobile {
+                display: none;
+                align-items: center;
+                gap: 4px;
+                margin-left: 12px;
+            }
+
+            .language-switcher-mobile button {
+                background: none;
+                border: none;
+                color: #a0a0c0;
+                font-size: 12px;
+                font-weight: 600;
+                cursor: pointer;
+                padding: 4px 8px;
+                border-radius: 14px;
+                transition: all 0.18s ease;
+                text-transform: uppercase;
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            .language-switcher-mobile button:hover {
+                color: #fff;
+            }
+
+            .language-switcher-mobile button.active {
+                background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+                color: #fff;
+            }
+
+            /* Tablet: ajustar switcher fixo */
+            @media (max-width: 991px) {
                 .language-switcher {
-                    top: 72px; /* abaixo da navbar fixed-top */
+                    top: 12px;
                     right: 12px;
-                    padding: 6px 12px;
-                    gap: 8px;
-                    max-width: 220px;
+                    padding: 6px 14px;
+                    gap: 6px;
                 }
-                
+
                 .language-switcher button {
                     font-size: 12px;
                     padding: 4px 8px;
                 }
             }
 
-            @media (max-width: 420px) {
-                .language-switcher {
-                    top: 78px;
-                    right: 8px;
-                    padding: 6px 8px;
-                    gap: 6px;
-                }
-
-                .language-switcher button {
-                    padding: 3px 6px;
-                    font-size: 11px;
-                }
-            }
-
-            /* Mobile: esconder switcher fixo e mostrar uma versão no rodapé */
+            /* Mobile: esconder fixo, mostrar dentro da navbar */
             @media (max-width: 768px) {
                 .language-switcher {
                     display: none !important;
                 }
 
                 .language-switcher-mobile {
-                    display: none; /* padrão escondido em desktop */
-                    gap: 8px;
-                    align-items: center;
-                }
-            }
-
-            @media (max-width: 420px) {
-                .language-switcher-mobile {
                     display: flex;
-                    margin-left: 10px;
-                }
-
-                .language-switcher-mobile button {
-                    background: none;
-                    border: none;
-                    color: #a0a0c0;
-                    font-size: 13px;
-                    font-weight: 600;
-                    padding: 4px 8px;
-                    border-radius: 14px;
-                }
-
-                .language-switcher-mobile button.active {
-                    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-                    color: #fff;
                 }
             }
         </style>
@@ -142,9 +134,9 @@
         <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
             <div class="container">
                 <a class="navbar-brand" href="#home">DVS</a>
-                <!-- Seletor de idioma móvel (visível apenas em telas pequenas) -->
-                <div class="language-switcher-mobile" role="navigation" aria-label="Language switcher mobile">
-                    <button type="button" onclick="changeLanguage('pt')" id="btn-pt-mobile" aria-label="Português">PT</button>
+                <!-- Seletor de idioma mobile (visível apenas em telas ≤ 768px) -->
+                <div class="language-switcher-mobile" role="navigation" aria-label="Seletor de idioma">
+                    <button type="button" onclick="changeLanguage('pt')" class="active" id="btn-pt-mobile" aria-label="Português">PT</button>
                     <button type="button" onclick="changeLanguage('en')" id="btn-en-mobile" aria-label="English">EN</button>
                     <button type="button" onclick="changeLanguage('es')" id="btn-es-mobile" aria-label="Español">ES</button>
                 </div>
@@ -211,7 +203,7 @@
                         <h2 class="section-title" data-pt="Sobre Mim" data-en="About Me" data-es="Sobre Mí">Sobre Mim</h2>
                         <p class="section-subtitle" data-pt="Conheça minha trajetória" data-en="Know my journey" data-es="Conoce mi trayectoria">Conheça minha trajetória</p>
                         <div class="about-text">
-                            <p data-pt="Olá! me chamo Douglas Valverde da Silva, um desenvolvedor apaixonado por criar soluções web inovadoras e eficientes. Com mais de 5 anos de experiência, trabalho transformando conceitos complexos em interfaces intuitivas e funcionais." data-en="Hello! My name is Douglas Valverde da Silva, a developer passionate about creating innovative and efficient web solutions. With over 5 years of experience, I work transforming complex concepts into intuitive and functional interfaces." data-es="¡Hola! Me llamo Douglas Valverde da Silva, un desarrollador apasionado por crear soluciones web innovadoras e eficientes. Con más de 5 años de experiencia, trabajo transformando conceptos complejos en interfaces intuitivas e funcionales.">
+                            <p data-pt="Olá! me chamo Douglas Valverde da Silva, um desenvolvedor apaixonado por criar soluções web inovadoras e eficientes. Com mais de 5 anos de experiência, trabalho transformando conceitos complexos em interfaces intuitivas e funcionais." data-en="Hello! My name is Douglas Valverde da Silva, a developer passionate about creating innovative and efficient web solutions. With over 5 years of experience, I work transforming complex concepts into intuitive and functional interfaces." data-es="¡Hola! Me llamo Douglas Valverde da Silva, un desarrollador apasionado por crear soluciones web innovadoras y eficientes. Con más de 5 años de experiencia, trabajo transformando conceptos complejos en interfaces intuitivas y funcionales.">
                                 Olá! me chamo Douglas Valverde da Silva, um desenvolvedor apaixonado por criar soluções web 
                                 inovadoras e eficientes. Com mais de 5 anos de experiência, trabalho 
                                 transformando conceitos complexos em interfaces intuitivas e funcionais.
@@ -527,14 +519,13 @@
         </section>
 
         <footer class="footer">
-             <div class="container">
-                 <div class="social-links">
-                     <a href="https://www.linkedin.com/in/douglas-valverde-da-silva-079b4095/" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
-                     <a href="https://github.com/doug-silva1992" title="GitHub"><i class="bi bi-github"></i></a>
-                     <a href="https://www.tiktok.com/@douglassilvaprogramador" title="Tiktok"><i class="bi bi-tiktok"></i></a>
-                     <a href="https://www.instagram.com/doug.programacao1992/" title="Instagram"><i class="bi bi-instagram"></i></a>
-                 </div>
-                <!-- footer sem seletor (seletor móvel agora ao lado do logo) -->
+            <div class="container">
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/douglas-valverde-da-silva-079b4095/" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                    <a href="https://github.com/doug-silva1992" title="GitHub"><i class="bi bi-github"></i></a>
+                    <a href="https://www.tiktok.com/@douglassilvaprogramador" title="Tiktok"><i class="bi bi-tiktok"></i></a>
+                    <a href="https://www.instagram.com/doug.programacao1992/" title="Instagram"><i class="bi bi-instagram"></i></a>
+                </div>
                 <p class="mb-0" data-pt="© 2026 Douglas Valverde da Silva. Desenvolvido com suor e muito café." data-en="© 2026 Douglas Valverde da Silva. Developed with sweat and lots of coffee." data-es="© 2026 Douglas Valverde da Silva. Desarrollado con sudor y mucho café.">&copy; 2026 Douglas Valverde da Silva. Desenvolvido com suor e muito café.</p>
             </div>
         </footer>
@@ -546,12 +537,11 @@
             function changeLanguage(lang) {
                 currentLanguage = lang;
                 
-                // Top buttons
-                document.getElementById('btn-pt')?.classList.toggle('active', lang === 'pt');
-                document.getElementById('btn-en')?.classList.toggle('active', lang === 'en');
-                document.getElementById('btn-es')?.classList.toggle('active', lang === 'es');
+                document.getElementById('btn-pt').classList.toggle('active', lang === 'pt');
+                document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+                document.getElementById('btn-es').classList.toggle('active', lang === 'es');
 
-                // Mobile buttons (ao lado do logo)
+                // Botões mobile (ao lado do logo na navbar)
                 document.getElementById('btn-pt-mobile')?.classList.toggle('active', lang === 'pt');
                 document.getElementById('btn-en-mobile')?.classList.toggle('active', lang === 'en');
                 document.getElementById('btn-es-mobile')?.classList.toggle('active', lang === 'es');
