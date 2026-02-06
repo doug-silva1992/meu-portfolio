@@ -13,7 +13,7 @@
                 position: fixed;
                 top: 20px;
                 right: 20px;
-                z-index: 1050;
+                z-index: 2000; /* garantir que fique acima da navbar */
                 background: rgba(26, 26, 46, 0.95);
                 border: 2px solid #6366f1;
                 border-radius: 50px;
@@ -23,6 +23,9 @@
                 gap: 10px;
                 box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
                 transition: all 0.3s ease;
+                flex-wrap: nowrap;
+                max-width: calc(100% - 40px);
+                touch-action: manipulation;
             }
             
             .language-switcher:hover {
@@ -40,8 +43,11 @@
                 cursor: pointer;
                 padding: 5px 10px;
                 border-radius: 20px;
-                transition: all 0.3s ease;
+                transition: all 0.18s ease;
                 text-transform: uppercase;
+                min-width: 36px;
+                white-space: nowrap;
+                -webkit-tap-highlight-color: transparent;
             }
             
             .language-switcher button:hover {
@@ -58,11 +64,14 @@
                 font-size: 16px;
             }
 
+            /* Responsividade: em telas pequenas reposicionar para abaixo da navbar e reduzir espaçamento */
             @media (max-width: 768px) {
                 .language-switcher {
-                    top: 10px;
-                    right: 10px;
-                    padding: 6px 15px;
+                    top: 72px; /* abaixo da navbar fixed-top */
+                    right: 12px;
+                    padding: 6px 12px;
+                    gap: 8px;
+                    max-width: 220px;
                 }
                 
                 .language-switcher button {
@@ -70,20 +79,75 @@
                     padding: 4px 8px;
                 }
             }
+
+            @media (max-width: 420px) {
+                .language-switcher {
+                    top: 78px;
+                    right: 8px;
+                    padding: 6px 8px;
+                    gap: 6px;
+                }
+
+                .language-switcher button {
+                    padding: 3px 6px;
+                    font-size: 11px;
+                }
+            }
+
+            /* Mobile: esconder switcher fixo e mostrar uma versão no rodapé */
+            @media (max-width: 768px) {
+                .language-switcher {
+                    display: none !important;
+                }
+
+                .language-switcher-mobile {
+                    display: none; /* padrão escondido em desktop */
+                    gap: 8px;
+                    align-items: center;
+                }
+            }
+
+            @media (max-width: 420px) {
+                .language-switcher-mobile {
+                    display: flex;
+                    margin-left: 10px;
+                }
+
+                .language-switcher-mobile button {
+                    background: none;
+                    border: none;
+                    color: #a0a0c0;
+                    font-size: 13px;
+                    font-weight: 600;
+                    padding: 4px 8px;
+                    border-radius: 14px;
+                }
+
+                .language-switcher-mobile button.active {
+                    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+                    color: #fff;
+                }
+            }
         </style>
     </head>
     <body>
         <!-- Botão de troca de idioma -->
-        <div class="language-switcher">
-            <i class="bi bi-translate"></i>
-            <button onclick="changeLanguage('pt')" class="active" id="btn-pt">PT</button>
-            <button onclick="changeLanguage('en')" id="btn-en">EN</button>
-            <button onclick="changeLanguage('es')" id="btn-es">ES</button>
+        <div class="language-switcher" id="language-switcher" role="navigation" aria-label="Language switcher">
+            <i class="bi bi-translate" aria-hidden="true"></i>
+            <button type="button" onclick="changeLanguage('pt')" class="active" id="btn-pt" aria-label="Português">PT</button>
+            <button type="button" onclick="changeLanguage('en')" id="btn-en" aria-label="English">EN</button>
+            <button type="button" onclick="changeLanguage('es')" id="btn-es" aria-label="Español">ES</button>
         </div>
 
         <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
             <div class="container">
                 <a class="navbar-brand" href="#home">DVS</a>
+                <!-- Seletor de idioma móvel (visível apenas em telas pequenas) -->
+                <div class="language-switcher-mobile" role="navigation" aria-label="Language switcher mobile">
+                    <button type="button" onclick="changeLanguage('pt')" id="btn-pt-mobile" aria-label="Português">PT</button>
+                    <button type="button" onclick="changeLanguage('en')" id="btn-en-mobile" aria-label="English">EN</button>
+                    <button type="button" onclick="changeLanguage('es')" id="btn-es-mobile" aria-label="Español">ES</button>
+                </div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -147,7 +211,7 @@
                         <h2 class="section-title" data-pt="Sobre Mim" data-en="About Me" data-es="Sobre Mí">Sobre Mim</h2>
                         <p class="section-subtitle" data-pt="Conheça minha trajetória" data-en="Know my journey" data-es="Conoce mi trayectoria">Conheça minha trajetória</p>
                         <div class="about-text">
-                            <p data-pt="Olá! me chamo Douglas Valverde da Silva, um desenvolvedor apaixonado por criar soluções web inovadoras e eficientes. Com mais de 5 anos de experiência, trabalho transformando conceitos complexos em interfaces intuitivas e funcionais." data-en="Hello! My name is Douglas Valverde da Silva, a developer passionate about creating innovative and efficient web solutions. With over 5 years of experience, I work transforming complex concepts into intuitive and functional interfaces." data-es="¡Hola! Me llamo Douglas Valverde da Silva, un desarrollador apasionado por crear soluciones web innovadoras y eficientes. Con más de 5 años de experiencia, trabajo transformando conceptos complejos en interfaces intuitivas y funcionales.">
+                            <p data-pt="Olá! me chamo Douglas Valverde da Silva, um desenvolvedor apaixonado por criar soluções web inovadoras e eficientes. Com mais de 5 anos de experiência, trabalho transformando conceitos complexos em interfaces intuitivas e funcionais." data-en="Hello! My name is Douglas Valverde da Silva, a developer passionate about creating innovative and efficient web solutions. With over 5 years of experience, I work transforming complex concepts into intuitive and functional interfaces." data-es="¡Hola! Me llamo Douglas Valverde da Silva, un desarrollador apasionado por crear soluciones web innovadoras e eficientes. Con más de 5 años de experiencia, trabajo transformando conceptos complejos en interfaces intuitivas e funcionales.">
                                 Olá! me chamo Douglas Valverde da Silva, um desenvolvedor apaixonado por criar soluções web 
                                 inovadoras e eficientes. Com mais de 5 anos de experiência, trabalho 
                                 transformando conceitos complexos em interfaces intuitivas e funcionais.
@@ -463,13 +527,14 @@
         </section>
 
         <footer class="footer">
-            <div class="container">
-                <div class="social-links">
-                    <a href="https://www.linkedin.com/in/douglas-valverde-da-silva-079b4095/" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
-                    <a href="https://github.com/doug-silva1992" title="GitHub"><i class="bi bi-github"></i></a>
-                    <a href="https://www.tiktok.com/@douglassilvaprogramador" title="Tiktok"><i class="bi bi-tiktok"></i></a>
-                    <a href="https://www.instagram.com/doug.programacao1992/" title="Instagram"><i class="bi bi-instagram"></i></a>
-                </div>
+             <div class="container">
+                 <div class="social-links">
+                     <a href="https://www.linkedin.com/in/douglas-valverde-da-silva-079b4095/" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                     <a href="https://github.com/doug-silva1992" title="GitHub"><i class="bi bi-github"></i></a>
+                     <a href="https://www.tiktok.com/@douglassilvaprogramador" title="Tiktok"><i class="bi bi-tiktok"></i></a>
+                     <a href="https://www.instagram.com/doug.programacao1992/" title="Instagram"><i class="bi bi-instagram"></i></a>
+                 </div>
+                <!-- footer sem seletor (seletor móvel agora ao lado do logo) -->
                 <p class="mb-0" data-pt="© 2026 Douglas Valverde da Silva. Desenvolvido com suor e muito café." data-en="© 2026 Douglas Valverde da Silva. Developed with sweat and lots of coffee." data-es="© 2026 Douglas Valverde da Silva. Desarrollado con sudor y mucho café.">&copy; 2026 Douglas Valverde da Silva. Desenvolvido com suor e muito café.</p>
             </div>
         </footer>
@@ -481,9 +546,15 @@
             function changeLanguage(lang) {
                 currentLanguage = lang;
                 
-                document.getElementById('btn-pt').classList.toggle('active', lang === 'pt');
-                document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-                document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+                // Top buttons
+                document.getElementById('btn-pt')?.classList.toggle('active', lang === 'pt');
+                document.getElementById('btn-en')?.classList.toggle('active', lang === 'en');
+                document.getElementById('btn-es')?.classList.toggle('active', lang === 'es');
+
+                // Mobile buttons (ao lado do logo)
+                document.getElementById('btn-pt-mobile')?.classList.toggle('active', lang === 'pt');
+                document.getElementById('btn-en-mobile')?.classList.toggle('active', lang === 'en');
+                document.getElementById('btn-es-mobile')?.classList.toggle('active', lang === 'es');
                 
                 let htmlLang = 'pt-BR';
                 if (lang === 'en') htmlLang = 'en';
