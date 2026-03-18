@@ -262,6 +262,203 @@ body {
     line-height: 1.8;
 }
 
+.about-carousel {
+    background: transparent;
+    padding: 0.75rem 0 0;
+    position: relative;
+    overflow: hidden;
+    box-shadow: none;
+}
+
+.about-carousel::before {
+    display: none;
+}
+
+.about-carousel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.about-carousel-progress {
+    width: 100%;
+    height: 4px;
+    background: rgba(136, 146, 176, 0.18);
+    overflow: hidden;
+}
+
+.about-carousel-progress-bar {
+    display: block;
+    height: 100%;
+    width: 33.333%;
+    background: linear-gradient(90deg, var(--accent-teal), var(--accent-coral));
+    transition: width 0.45s ease;
+}
+
+.about-carousel-counter {
+    color: var(--text-light);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    white-space: nowrap;
+}
+
+.about-carousel-viewport {
+    position: relative;
+    min-height: 320px;
+}
+
+.about-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transform: translateX(24px);
+    pointer-events: none;
+    transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.about-slide.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+}
+
+.about-slide-tag {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 0.35rem 0.9rem;
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-light);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.about-slide .about-text p + p {
+    margin-top: 1rem;
+}
+
+.about-video-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.about-video-thumb {
+    position: relative;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.03);
+    max-width: 72%;
+    aspect-ratio: 16 / 9;
+    margin: 0 auto;
+}
+
+.about-video-thumb img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    transition: transform 0.35s ease;
+}
+
+.about-video-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.62);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    transition: var(--transition);
+}
+
+.about-video-meta {
+    margin-top: 0.9rem;
+}
+
+.about-video-meta p {
+    margin: 0;
+    color: var(--text-white);
+    font-weight: 700;
+}
+
+.about-video-meta small {
+    display: block;
+    margin-top: 0.35rem;
+    color: var(--text-light);
+    line-height: 1.5;
+}
+
+.about-video-card:hover .about-video-thumb img,
+.about-video-card:focus-visible .about-video-thumb img {
+    transform: scale(1.03);
+}
+
+.about-video-card:hover .about-video-play,
+.about-video-card:focus-visible .about-video-play {
+    color: var(--accent-teal);
+    background: rgba(0, 0, 0, 0.78);
+}
+
+.about-carousel-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.about-carousel-btn {
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    color: var(--text-light);
+    transition: var(--transition);
+}
+
+.about-carousel-btn:hover,
+.about-carousel-btn:focus-visible {
+    color: var(--accent-teal);
+    outline: none;
+}
+
+.about-carousel-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    flex: 1;
+}
+
+.about-carousel-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(136, 146, 176, 0.4);
+    transition: var(--transition);
+}
+
+.about-carousel-dot.active {
+    background: var(--accent-teal);
+    transform: scale(1.2);
+    box-shadow: none;
+}
+
 .skills-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -640,6 +837,28 @@ body {
     
     .skills-list {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .about-carousel {
+        padding: 0.75rem 0 0;
+    }
+
+    .about-carousel-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .about-carousel-viewport {
+        min-height: 360px;
+    }
+
+    .about-carousel-controls {
+        gap: 0.75rem;
+    }
+
+    .about-carousel-btn {
+        width: 44px;
+        height: 44px;
     }
 }
 
