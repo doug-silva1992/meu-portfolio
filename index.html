@@ -123,7 +123,6 @@
         </style>
     </head>
     <body>
-        <!-- Botão de troca de idioma -->
         <div class="language-switcher" id="language-switcher" role="navigation" aria-label="Language switcher">
             <i class="bi bi-translate" aria-hidden="true"></i>
             <button type="button" onclick="changeLanguage('pt')" class="active" id="btn-pt" aria-label="Português">PT</button>
@@ -155,12 +154,14 @@
                             <a class="nav-link" href="#professional_experience" data-pt="Experiência Profissional" data-en="Professional Experience" data-es="Experiencia Profesional">Experiência Profissional</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="#educational_experience" data-pt="Experiência Educacional" data-en="Educational Experience" data-es="Experiencia Educativa">Experiência Educacional</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="#projects" data-pt="Projetos" data-en="Projects" data-es="Proyectos">Projetos</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#contact" data-pt="Contato" data-en="Contact" data-es="Contacto">Contato</a>
                         </li>
-
                         <li class="nav-item d-flex align-items-center">
                             <a class="nav-link btn btn-sm btn-outline-custom ms-2" href="curriculo/Douglas.pdf" download data-pt="Baixar CV" data-en="Download CV" data-es="Descargar CV">
                                 Baixar CV
@@ -183,6 +184,7 @@
                         </p>
                         <div class="d-flex gap-3 flex-wrap">
                             <a href="#professional_experience" class="btn btn-custom btn-primary-custom" data-pt="Experiência Profisssional" data-en="Professional Experience" data-es="Experiencia Profesional">Experiência Profisssional</a>
+                            <a href="#educational_experience" class="btn btn-custom btn-outline-custom" data-pt="Experiência Educacional" data-en="Educational Experience" data-es="Experiencia Educativa">Experiência Educacional</a>
                             <a href="#projects" class="btn btn-custom btn-outline-custom" data-pt="Ver Projetos" data-en="View Projects" data-es="Ver Proyectos">Ver Projetos</a>
                             <a href="#contact" class="btn btn-custom btn-outline-custom" data-pt="Entrar em Contato" data-en="Get in Touch" data-es="Ponerse en Contacto">Entrar em Contato</a>
                         </div>
@@ -333,8 +335,8 @@
                                 <img src="images/elev.jpg" alt="Elev Tecnologia">
                                 <div class="project-overlay">
                                     <div class="project-links">
-                                        <a href="https://elev.tec.br/" title="Elev Tecnologia - Site"><i class="bi bi-box-arrow-up-right"></i></a>
-                                        <a href="https://www.linkedin.com/company/elevtecnologia/posts/?feedView=all" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                                        <a href="https://elev.tec.br/" target="_blank" rel="noopener noreferrer" title="Elev Tecnologia - Site"><i class="bi bi-box-arrow-up-right"></i></a>
+                                        <a href="https://www.linkedin.com/company/elevtecnologia/posts/?feedView=all" target="_blank" rel="noopener noreferrer" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -361,8 +363,8 @@
                                 <img src="images/Verisys.png" alt="Verisys">
                                 <div class="project-overlay">
                                     <div class="project-links">
-                                        <a href="https://www.verisys.com.br/" title="Verisys - Site"><i class="bi bi-box-arrow-up-right"></i></a>
-                                        <a href="https://www.linkedin.com/company/verisys-tecnologia-e-solu-es/" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                                        <a href="https://www.verisys.com.br/" target="_blank" rel="noopener noreferrer" title="Verisys - Site"><i class="bi bi-box-arrow-up-right"></i></a>
+                                        <a href="https://www.linkedin.com/company/verisys-tecnologia-e-solu-es/" target="_blank" rel="noopener noreferrer" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -395,6 +397,96 @@
                             </div>
                         </div>
                     </div>                    
+                </div>
+            </div>
+        </section>
+        
+        <section id="educational_experience" class="about-section">
+            <div class="container">
+                <div class="text-center mb-5 fade-in">
+                    <h2 class="section-title" data-pt="Experiência Educacional" data-en="Educational Experience" data-es="Experiencia Educativa">Experiência Educacional</h2>
+                    <p class="section-subtitle" data-pt="Instituições onde estudei e principais conquistas" data-en="Institutions where I studied and main achievements" data-es="Instituciones donde estudié y principales logros">Instituições onde estudei e principais conquistas</p>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-lg-4 col-md-6 fade-in">
+                        <div class="card project-card">
+                            <div class="project-image">
+                                <img src="images/cruzeiroDoSul.png" alt="Universidade Cruzeiro do Sul">
+                                <div class="project-overlay">
+                                    <div class="project-links">
+                                        <a href="https://www.cruzeirodosul.edu.br/" target="_blank" rel="noopener noreferrer" title="Universidade Cruzeiro do Sul - Site"><i class="bi bi-box-arrow-up-right"></i></a>
+                                        <a href="https://www.linkedin.com/school/universidade-cruzeiro-do-sul/" target="_blank" rel="noopener noreferrer" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                                        <a href="" target="_blank" rel="noopener noreferrer" title="Certificado"><i class="bi bi-mortarboard"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">Universidade Cruzeiro do Sul</h3>
+                                <p class="card-text" data-pt="Engenharia de Software com Metodologias Ágeis — Ago 2020 até Fev 2022.&#10; Desenvolvimento de sistemas web para gestão empresarial, incluindo módulos de controle financeiro, estoque e relatórios gerenciais. Implementação de APIs RESTful e integração com serviços externos." 
+                                                     data-en="Software Engineering with Agile Methodologies — Aug 2020 to Feb 2022.&#10; Development of web systems for business management, including financial control modules, inventory and management reports. Implementation of RESTful APIs and integration with external services." 
+                                                     data-es="Ingeniería de Software con Metodologías Ágiles — Ago 2020 a Feb 2022.&#10; Desarrollo de sistemas web para la gestión empresarial, incluyendo módulos de control financiero, inventario e informes de gestión. Implementación de APIs RESTful e integración con servicios externos.">
+                                    Engenharia de Software com Metodologias Ágeis — Ago 2020 &ndash; Fev 2022.<br>
+                                    Desenvolvimento de software de qualidade utilizando processos, metodologias e técnicas consolidadas da engenharia de software.
+                                </p>
+                                <div class="tech-tags">
+                                    <span class="tech-tag">Pós-graduação</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 fade-in">
+                        <div class="card project-card">
+                            <div class="project-image">
+                                <img src="images/unicesumar.png" alt="Universidade Cesumar">
+                                <div class="project-overlay">
+                                    <div class="project-links">
+                                        <a href="https://www.unicesumar.edu.br/ead/" target="_blank" rel="noopener noreferrer" title="Universidade Cesumar - Site"><i class="bi bi-box-arrow-up-right"></i></a>
+                                        <a href="https://www.linkedin.com/school/universidade-cruzeiro-do-sul/" target="_blank" rel="noopener noreferrer" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                                        <a href="diplomas/unicesumar.png" target="_blank" rel="noopener noreferrer" title="Certificado"><i class="bi bi-mortarboard"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">Universidade Cesumar</h3>
+                                <p class="card-text" data-pt="Sistemas para Internet — Ago 2020 até Fev 2022.&#10;A tecnologia em Sistemas para Internet é uma área voltada à criação e manutenção de sistemas, sites e plataformas digitais. Diante disso, o curso capacita você para atuar com desenvolvimento web, englobando desde a parte visual de um site (front-end) até sua estrutura e lógica de funcionamento (back-end)." 
+                                                     data-en="Sistemas para Internet — Ago 2020 até Fev 2022.&#10;Internet Systems technology is an area focused on the creation and maintenance of systems, websites, and digital platforms. Therefore, the course prepares you to work with web development, encompassing everything from the visual part of a website (front-end) to its structure and logic (back-end)." 
+                                                     data-es="Sistemas para Internet — Ago 2020 até Fev 2022.&#10;La tecnología en Sistemas para Internet es un área orientada a la creación y mantenimiento de sistemas, sitios web y plataformas digitales. Por lo tanto, el curso te prepara para trabajar en desarrollo web, abarcando desde la parte visual de un sitio web (front-end) hasta su estructura y lógica de funcionamiento (back-end).">
+                                    Estagiário em Programação — Jan 2018 &ndash; Out 2019.<br>
+                                    A tecnologia em Sistemas para Internet é uma área voltada à criação e manutenção de sistemas, sites e plataformas digitais. Diante disso, o curso capacita você para atuar com desenvolvimento web, englobando desde a parte visual de um site (front-end) até sua estrutura e lógica de funcionamento (back-end).
+                                </p>
+                                <div class="tech-tags">
+                                    <span class="tech-tag">Graduação</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 fade-in">
+                        <div class="card project-card">
+                            <div class="project-image">
+                                <img src="images/senac.png" alt="Senac Tatuapé">
+                                <div class="project-overlay">
+                                    <div class="project-links">
+                                        <a href="https://www.unicesumar.edu.br/ead/" target="_blank" rel="noopener noreferrer" title="Senac Tatuapé - Site"><i class="bi bi-box-arrow-up-right"></i></a>
+                                        <a href="https://www.linkedin.com/school/universidade-cruzeiro-do-sul/" target="_blank" rel="noopener noreferrer" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                                        <a href="" target="_blank" rel="noopener noreferrer" title="Certificado"><i class="bi bi-mortarboard"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">Senac Tatuapé</h3>
+                                <p class="card-text" data-pt="A tecnologia em Sistemas para Internet é uma área voltada à criação e manutenção de sistemas, sites e plataformas digitais. Diante disso, o curso capacita você para atuar com desenvolvimento web, englobando desde a parte visual de um site (front-end) até sua estrutura e lógica de funcionamento (back-end)." 
+                                                     data-en="Internet Systems technology is an area focused on the creation and maintenance of systems, websites, and digital platforms. Therefore, the course prepares you to work with web development, encompassing everything from the visual part of a website (front-end) to its structure and logic (back-end)." 
+                                                     data-es="La tecnología en Sistemas para Internet es un área orientada a la creación y mantenimiento de sistemas, sitios web y plataformas digitales. Por lo tanto, el curso te prepara para trabajar en desarrollo web, abarcando desde la parte visual de un sitio web (front-end) hasta su estructura y lógica de funcionamiento (back-end).">
+                                    Tecnico em Informatica — Jan 2018 &ndash; Out 2019.<br>
+                                    Técnico em Informática é o profissional capacitado para instalar, configurar e manter computadores, redes e sistemas, garantindo seu funcionamento eficiente e seguro. Atua na montagem e manutenção de hardware, instalação de softwares, suporte técnico e administração de redes locais. Possui conhecimentos em programação básica, segurança digital e atendimento ao usuário, oferecendo soluções práticas para problemas tecnológicos e contribuindo para a produtividade das organizações.                                </p>
+                                <div class="tech-tags">
+                                    <span class="tech-tag">Técnico</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>   
                 </div>
             </div>
         </section>
@@ -489,7 +581,7 @@
             </div>
         </section>
 
-        <section id="contact" class="contact-section">
+        <section id="contact" class="about-section">
             <div class="container">
                 <div class="text-center mb-4 fade-in">
                     <h2 class="section-title" data-pt="Entre em Contato" data-en="Get in Touch" data-es="Entre em Contato">Entre em Contato</h2>
@@ -527,7 +619,7 @@
                                 <i class="bi bi-instagram" aria-hidden="true"></i>
                                 <div class="contact-meta">
                                     <div class="label">Instagram</div>
-                                    <a href="https://www.instagram.com/doug.programacao1992/">Douglas Silva</a>
+                                    <a href="https://www.instagram.com/doug.programacao1992/" target="_blank" rel="noopener noreferrer">Douglas Silva</a>
                                 </div>
                             </div>
 
@@ -535,7 +627,7 @@
                                 <i class="bi bi-linkedin" aria-hidden="true"></i>
                                 <div class="contact-meta">
                                     <div class="label">Linkedin</div>
-                                    <a href="https://www.linkedin.com/in/douglas-valverde-da-silva-079b4095/">Douglas Valverde da Silva</a>
+                                    <a href="https://www.linkedin.com/in/douglas-valverde-da-silva-079b4095/" target="_blank" rel="noopener noreferrer">Douglas Valverde da Silva</a>
                                 </div>
                             </div>
 
@@ -543,7 +635,7 @@
                                 <i class="bi bi-github" aria-hidden="true"></i>
                                 <div class="contact-meta">
                                     <div class="label">GitHub</div>
-                                    <a href="https://github.com/doug-silva1992">doug-silva1992</a>
+                                    <a href="https://github.com/doug-silva1992" target="_blank" rel="noopener noreferrer">doug-silva1992</a>
                                 </div>
                             </div>
 
@@ -551,7 +643,7 @@
                                 <i class="bi bi-tiktok" aria-hidden="true"></i>
                                 <div class="contact-meta">
                                     <div class="label">Tiktok</div>
-                                    <a href="https://www.tiktok.com/@douglassilvaprogramador">doug.silva1992</a>
+                                    <a href="https://www.tiktok.com/@douglassilvaprogramador" target="_blank" rel="noopener noreferrer">doug.silva1992</a>
                                 </div>
                             </div>
 
@@ -559,7 +651,7 @@
                                 <i class="bi bi-youtube" aria-hidden="true"></i>
                                 <div class="contact-meta">
                                     <div class="label">Youtube</div>
-                                    <a href="https://www.youtube.com/@dougprogramacao195">Doug Programação</a>
+                                    <a href="https://www.youtube.com/@dougprogramacao195" target="_blank" rel="noopener noreferrer">Doug Programação</a>
                                 </div>
                             </div>
                         </div>
@@ -585,10 +677,10 @@
         <footer class="footer">
             <div class="container">
                 <div class="social-links">
-                    <a href="https://www.linkedin.com/in/douglas-valverde-da-silva-079b4095/" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
-                    <a href="https://github.com/doug-silva1992" title="GitHub"><i class="bi bi-github"></i></a>
-                    <a href="https://www.tiktok.com/@douglassilvaprogramador" title="Tiktok"><i class="bi bi-tiktok"></i></a>
-                    <a href="https://www.instagram.com/doug.programacao1992/" title="Instagram"><i class="bi bi-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/douglas-valverde-da-silva-079b4095/" target="_blank" rel="noopener noreferrer" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                    <a href="https://github.com/doug-silva1992" target="_blank" rel="noopener noreferrer" title="GitHub"><i class="bi bi-github"></i></a>
+                    <a href="https://www.tiktok.com/@douglassilvaprogramador" target="_blank" rel="noopener noreferrer" title="Tiktok"><i class="bi bi-tiktok"></i></a>
+                    <a href="https://www.instagram.com/doug.programacao1992/" target="_blank" rel="noopener noreferrer" title="Instagram"><i class="bi bi-instagram"></i></a>
                 </div>
                 <p class="mb-0" data-pt="© 2026 Douglas Valverde da Silva. Desenvolvido com suor e muito café." data-en="© 2026 Douglas Valverde da Silva. Developed with sweat and lots of coffee." data-es="© 2026 Douglas Valverde da Silva. Desarrollado con sudor y mucho café.">&copy; 2026 Douglas Valverde da Silva. Desenvolvido com suor e muito café.</p>
             </div>
@@ -618,7 +710,8 @@
                 document.querySelectorAll('[data-pt][data-en]').forEach(element => {
                     const text = element.getAttribute(`data-${lang}`);
                     if (text) {
-                        element.textContent = text;
+                        const formattedText = text.replace(/\r\n|\r|\n/g, '<br>');
+                        element.innerHTML = formattedText;
                     }
                 });
 
