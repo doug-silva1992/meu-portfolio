@@ -616,47 +616,37 @@ section[id] {
     box-shadow: none;
 }
 
-.skills-list {
+/* Tecnologias agrupadas por categoria (slide do carrossel "Sobre") */
+.skills-groups {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 1rem;
-    margin-top: 2rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem 1.5rem;
 }
 
-.skill-item {
-    background: var(--primary-dark);
-    padding: 1rem;
-    text-align: center;
-    transition: var(--transition);
-    border: 1px solid rgba(100, 255, 218, 0.1);
-    position: relative;
-    overflow: hidden;
+.skills-group-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.6rem;
+    color: var(--text-white);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
 
-.skill-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(100, 255, 218, 0.1), transparent);
-    transition: var(--transition);
-}
-
-.skill-item:hover::before {
-    left: 100%;
-}
-
-.skill-item:hover {
-    transform: translateY(-5px);
-    border-color: var(--accent-teal);
-}
-
-.skill-item i {
-    font-size: 2rem;
+.skills-group-title i {
     color: var(--accent-teal);
-    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.skills-group .tech-tags {
+    gap: 0.4rem;
+}
+
+.skills-group .tech-tag {
+    padding: 0.25rem 0.7rem;
+    font-size: 0.8rem;
 }
 
 .projects-section {
@@ -1020,20 +1010,18 @@ section[id] {
         font-size: 1.05rem;
     }
 
-    .skills-list {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 0.6rem;
-        margin-top: 0.5rem;
+    .skills-groups {
+        gap: 1rem;
     }
 
-    .skill-item {
-        padding: 0.65rem 0.4rem;
-        font-size: 0.9rem;
+    .skills-group-title {
+        font-size: 0.78rem;
+        margin-bottom: 0.45rem;
     }
 
-    .skill-item i {
-        font-size: 1.5rem;
-        margin-bottom: 0.25rem;
+    .skills-group .tech-tag {
+        padding: 0.2rem 0.55rem;
+        font-size: 0.75rem;
     }
 
     .about-text {
