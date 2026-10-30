@@ -8,138 +8,21 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
         <link href="css/style.css" rel="stylesheet">
-        <style>
-            .language-switcher {
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                z-index: 2000; /* garantir que fique acima da navbar */
-                background: rgba(26, 26, 46, 0.95);
-                border: 2px solid #6366f1;
-                border-radius: 50px;
-                padding: 8px 20px;
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
-                transition: all 0.3s ease;
-                flex-wrap: nowrap;
-                max-width: calc(100% - 40px);
-                touch-action: manipulation;
-            }
-            
-            .language-switcher:hover {
-                background: rgba(26, 26, 46, 1);
-                box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
-                transform: translateY(-2px);
-            }
-            
-            .language-switcher button {
-                background: none;
-                border: none;
-                color: #a0a0c0;
-                font-size: 14px;
-                font-weight: 600;
-                cursor: pointer;
-                padding: 5px 10px;
-                border-radius: 20px;
-                transition: all 0.18s ease;
-                text-transform: uppercase;
-                min-width: 36px;
-                white-space: nowrap;
-                -webkit-tap-highlight-color: transparent;
-            }
-            
-            .language-switcher button:hover {
-                color: #fff;
-            }
-            
-            .language-switcher button.active {
-                background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-                color: #fff;
-            }
-            
-            .language-switcher i {
-                color: #6366f1;
-                font-size: 16px;
-            }
-
-            /* Seletor mobile (dentro da navbar, ao lado do logo) — escondido por padrão */
-            .language-switcher-mobile {
-                display: none;
-                align-items: center;
-                gap: 4px;
-                margin-left: 12px;
-            }
-
-            .language-switcher-mobile button {
-                background: none;
-                border: none;
-                color: #a0a0c0;
-                font-size: 12px;
-                font-weight: 600;
-                cursor: pointer;
-                padding: 4px 8px;
-                border-radius: 14px;
-                transition: all 0.18s ease;
-                text-transform: uppercase;
-                -webkit-tap-highlight-color: transparent;
-            }
-
-            .language-switcher-mobile button:hover {
-                color: #fff;
-            }
-
-            .language-switcher-mobile button.active {
-                background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-                color: #fff;
-            }
-
-            /* Tablet: ajustar switcher fixo */
-            @media (max-width: 991px) {
-                .language-switcher {
-                    top: 12px;
-                    right: 12px;
-                    padding: 6px 14px;
-                    gap: 6px;
-                }
-
-                .language-switcher button {
-                    font-size: 12px;
-                    padding: 4px 8px;
-                }
-            }
-
-            /* Mobile: esconder fixo, mostrar dentro da navbar */
-            @media (max-width: 768px) {
-                .language-switcher {
-                    display: none !important;
-                }
-
-                .language-switcher-mobile {
-                    display: flex;
-                }
-            }
-        </style>
     </head>
     <body>
-        <div class="language-switcher" id="language-switcher" role="navigation" aria-label="Language switcher">
-            <i class="bi bi-translate" aria-hidden="true"></i>
-            <button type="button" onclick="changeLanguage('pt')" class="active" id="btn-pt" aria-label="Português">PT</button>
-            <button type="button" onclick="changeLanguage('en')" id="btn-en" aria-label="English">EN</button>
-            <button type="button" onclick="changeLanguage('es')" id="btn-es" aria-label="Español">ES</button>
-        </div>
-
-        <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+        <nav class="navbar navbar-expand-xl navbar-dark navbar-custom fixed-top">
             <div class="container">
                 <a class="navbar-brand" href="#home">DVS</a>
-                <!-- Seletor de idioma mobile (visível apenas em telas ≤ 768px) -->
-                <div class="language-switcher-mobile" role="navigation" aria-label="Seletor de idioma">
-                    <button type="button" onclick="changeLanguage('pt')" class="active" id="btn-pt-mobile" aria-label="Português">PT</button>
-                    <button type="button" onclick="changeLanguage('en')" id="btn-en-mobile" aria-label="English">EN</button>
-                    <button type="button" onclick="changeLanguage('es')" id="btn-es-mobile" aria-label="Español">ES</button>
+                <div class="lang-switch ms-auto ms-xl-3 order-xl-last" role="group" aria-label="Idioma / Language / Idioma">
+                    <i class="bi bi-globe2" aria-hidden="true"></i>
+                    <div class="lang-options">
+                        <span class="lang-indicator" aria-hidden="true"></span>
+                        <button type="button" class="lang-btn active" data-lang="pt" aria-pressed="true" title="Português">PT</button>
+                        <button type="button" class="lang-btn" data-lang="en" aria-pressed="false" title="English">EN</button>
+                        <button type="button" class="lang-btn" data-lang="es" aria-pressed="false" title="Español">ES</button>
+                    </div>
                 </div>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Menu">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
@@ -163,7 +46,7 @@
                             <a class="nav-link" href="#contact" data-pt="Contato" data-en="Contact" data-es="Contacto">Contato</a>
                         </li>
                         <li class="nav-item d-flex align-items-center">
-                            <a class="nav-link btn btn-sm btn-outline-custom ms-2" href="curriculo/Douglas.pdf" download data-pt="Baixar CV" data-en="Download CV" data-es="Descargar CV">
+                            <a class="nav-link nav-cv ms-xl-2" href="curriculo/Douglas.pdf" download data-pt="Baixar CV" data-en="Download CV" data-es="Descargar CV">
                                 Baixar CV
                             </a>
                         </li>
@@ -182,8 +65,8 @@
                             Transformo ideias em soluções digitais elegantes e funcionais. 
                             Especializado em criar experiências web modernas que fazem a diferença.
                         </p>
-                        <div class="d-flex gap-3 flex-wrap">
-                            <a href="#professional_experience" class="btn btn-custom btn-primary-custom" data-pt="Experiência Profisssional" data-en="Professional Experience" data-es="Experiencia Profesional">Experiência Profisssional</a>
+                        <div class="hero-actions">
+                            <a href="#professional_experience" class="btn btn-custom btn-primary-custom" data-pt="Experiência Profissional" data-en="Professional Experience" data-es="Experiencia Profesional">Experiência Profissional</a>
                             <a href="#educational_experience" class="btn btn-custom btn-outline-custom" data-pt="Experiência Educacional" data-en="Educational Experience" data-es="Experiencia Educativa">Experiência Educacional</a>
                             <a href="#projects" class="btn btn-custom btn-outline-custom" data-pt="Ver Projetos" data-en="View Projects" data-es="Ver Proyectos">Ver Projetos</a>
                             <a href="#contact" class="btn btn-custom btn-outline-custom" data-pt="Entrar em Contato" data-en="Get in Touch" data-es="Ponerse en Contacto">Entrar em Contato</a>
@@ -688,24 +571,22 @@
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
         <script>
+            const LANGUAGES = ['pt', 'en', 'es'];
+            const HTML_LANG = { pt: 'pt-BR', en: 'en', es: 'es' };
             let currentLanguage = 'pt';
 
             function changeLanguage(lang) {
+                if (!LANGUAGES.includes(lang)) lang = 'pt';
                 currentLanguage = lang;
-                
-                document.getElementById('btn-pt').classList.toggle('active', lang === 'pt');
-                document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-                document.getElementById('btn-es').classList.toggle('active', lang === 'es');
 
-                // Botões mobile (ao lado do logo na navbar)
-                document.getElementById('btn-pt-mobile')?.classList.toggle('active', lang === 'pt');
-                document.getElementById('btn-en-mobile')?.classList.toggle('active', lang === 'en');
-                document.getElementById('btn-es-mobile')?.classList.toggle('active', lang === 'es');
-                
-                let htmlLang = 'pt-BR';
-                if (lang === 'en') htmlLang = 'en';
-                if (lang === 'es') htmlLang = 'es';
-                document.documentElement.lang = htmlLang;
+                document.querySelectorAll('.lang-switch [data-lang]').forEach(button => {
+                    const isActive = button.dataset.lang === lang;
+                    button.classList.toggle('active', isActive);
+                    button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+                });
+                document.querySelector('.lang-switch')?.style.setProperty('--lang-index', LANGUAGES.indexOf(lang));
+
+                document.documentElement.lang = HTML_LANG[lang];
 
                 document.querySelectorAll('[data-pt][data-en]').forEach(element => {
                     const text = element.getAttribute(`data-${lang}`);
@@ -715,13 +596,31 @@
                     }
                 });
 
-                localStorage.setItem('preferredLanguage', lang);
+                try {
+                    localStorage.setItem('preferredLanguage', lang);
+                } catch (e) {}
+            }
+
+            function getInitialLanguage() {
+                let savedLanguage = null;
+                try {
+                    savedLanguage = localStorage.getItem('preferredLanguage');
+                } catch (e) {}
+                if (LANGUAGES.includes(savedLanguage)) return savedLanguage;
+
+                // Sem preferência salva: usa o idioma do navegador (útil para recrutadores de fora)
+                const browserLanguage = (navigator.language || 'pt').slice(0, 2).toLowerCase();
+                return LANGUAGES.includes(browserLanguage) ? browserLanguage : 'pt';
             }
 
             document.addEventListener('DOMContentLoaded', function() {
-                const savedLanguage = localStorage.getItem('preferredLanguage');
-                if (savedLanguage) {
-                    changeLanguage(savedLanguage);
+                document.querySelectorAll('.lang-switch [data-lang]').forEach(button => {
+                    button.addEventListener('click', () => changeLanguage(button.dataset.lang));
+                });
+
+                const initialLanguage = getInitialLanguage();
+                if (initialLanguage !== currentLanguage) {
+                    changeLanguage(initialLanguage);
                 }
 
                 const aboutCarousel = document.querySelector('[data-about-carousel]');
@@ -826,6 +725,13 @@
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
                     const target = document.querySelector(this.getAttribute('href'));
+
+                    // Fecha o menu mobile ao navegar
+                    const openMenu = document.querySelector('.navbar-collapse.show');
+                    if (openMenu) {
+                        bootstrap.Collapse.getOrCreateInstance(openMenu).hide();
+                    }
+
                     if (target) {
                         target.scrollIntoView({
                             behavior: 'smooth',

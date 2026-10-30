@@ -66,9 +66,156 @@ body {
 .navbar-custom .nav-link:hover::before {
     width: 100%;
 }
-    
+
+.navbar-custom .navbar-toggler {
+    border: 1px solid rgba(100, 255, 218, 0.3);
+    padding: 0.35rem 0.6rem;
+}
+
+.navbar-custom .navbar-toggler:focus {
+    box-shadow: 0 0 0 2px rgba(100, 255, 218, 0.35);
+}
+
+/* Botão "Baixar CV" da navbar */
+.navbar-custom .nav-cv {
+    border: 2px solid var(--accent-teal);
+    color: var(--accent-teal);
+    padding: 0.35rem 1rem;
+    font-size: 0.9rem;
+}
+
+.navbar-custom .nav-cv::before {
+    display: none;
+}
+
+.navbar-custom .nav-cv:hover,
+.navbar-custom .nav-cv:focus-visible {
+    background: var(--accent-teal);
+    color: var(--primary-dark);
+}
+
+/* Seletor de idioma (PT / EN / ES) */
+/* Mesmo estilo dos links da navbar: texto discreto, ativo em teal com sublinhado */
+.lang-switch {
+    --lang-index: 0;
+    --lang-btn-w: 2.25rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding-left: 0.85rem;
+    border-left: 1px solid rgba(136, 146, 176, 0.25);
+}
+
+.lang-switch > i {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    line-height: 1;
+}
+
+.lang-options {
+    position: relative;
+    display: flex;
+}
+
+.lang-indicator {
+    position: absolute;
+    bottom: 2px;
+    left: 0.6rem;
+    width: calc(var(--lang-btn-w) - 1.2rem);
+    height: 2px;
+    background: var(--accent-teal);
+    transform: translateX(calc(var(--lang-index) * var(--lang-btn-w)));
+    transition: var(--transition);
+}
+
+.lang-btn {
+    width: var(--lang-btn-w);
+    height: 2.25rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--text-light);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: var(--transition);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.lang-btn:hover,
+.lang-btn.active {
+    color: var(--accent-teal);
+}
+
+.lang-btn:focus-visible {
+    outline: 2px solid var(--accent-teal);
+    outline-offset: 2px;
+}
+
+/* Navbar desktop: links mais compactos para caber tudo em uma linha */
+@media (min-width: 1200px) {
+    .navbar-custom .nav-link {
+        margin: 0 0.15rem;
+        font-size: 0.95rem;
+        letter-spacing: 0.2px;
+    }
+}
+
+/* Navbar mobile/tablet: menu recolhido */
+@media (max-width: 1199.98px) {
+    .navbar-custom {
+        padding: 0.75rem 0;
+    }
+
+    .navbar-custom .navbar-collapse {
+        margin-top: 0.75rem;
+        padding-top: 0.5rem;
+        border-top: 1px solid rgba(100, 255, 218, 0.1);
+        max-height: calc(100vh - 80px);
+        overflow-y: auto;
+    }
+
+    .navbar-custom .nav-link {
+        margin: 0;
+        padding: 0.65rem 0;
+    }
+
+    .navbar-custom .nav-link::before {
+        bottom: 0.35rem;
+    }
+
+    .navbar-custom .nav-cv {
+        margin: 0.5rem 0 0.75rem;
+        padding: 0.55rem 1.25rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .navbar-custom .navbar-brand {
+        font-size: 1.5rem;
+        margin-right: 0.5rem;
+    }
+
+    .lang-switch {
+        --lang-btn-w: 2rem;
+        padding-left: 0.5rem;
+    }
+
+    .lang-switch > i {
+        display: none;
+    }
+}
+
+/* Compensa a navbar fixa ao navegar pelas âncoras */
+section[id] {
+    scroll-margin-top: 72px;
+}
+
 .hero-section {
     min-height: 100vh;
+    min-height: 100svh;
+    padding: 6rem 0 4rem;
     display: flex;
     align-items: center;
     position: relative;
@@ -149,6 +296,12 @@ body {
     max-width: 600px;
     margin-bottom: 2rem;
     animation: fadeInUp 1s ease-out 0.6s both;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .btn-custom {
@@ -305,24 +458,28 @@ body {
     white-space: nowrap;
 }
 
+/* Slides empilhados na mesma célula do grid: a altura acompanha o maior slide,
+   então o texto nunca sobrepõe os controles em telas pequenas */
 .about-carousel-viewport {
-    position: relative;
-    min-height: 320px;
+    display: grid;
 }
 
 .about-slide {
-    position: absolute;
-    inset: 0;
+    grid-area: 1 / 1;
+    min-width: 0;
     opacity: 0;
+    visibility: hidden;
     transform: translateX(24px);
     pointer-events: none;
-    transition: opacity 0.45s ease, transform 0.45s ease;
+    transition: opacity 0.45s ease, transform 0.45s ease, visibility 0s linear 0.45s;
 }
 
 .about-slide.active {
     opacity: 1;
+    visibility: visible;
     transform: translateX(0);
     pointer-events: auto;
+    transition-delay: 0s;
 }
 
 .about-slide-tag {
@@ -723,7 +880,7 @@ body {
 
 .contact-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
     gap: 1rem;
     align-items: stretch;
 }
@@ -825,31 +982,66 @@ body {
     font-size: 1.25rem;
 }
 
+/* Telas sem hover (celular/tablet): links dos cards sempre visíveis */
+@media (hover: none) {
+    .project-overlay {
+        opacity: 1;
+        background: linear-gradient(180deg, transparent 45%, rgba(10, 25, 47, 0.9) 100%);
+    }
+
+    .project-card:hover {
+        transform: none;
+    }
+
+    .project-card:hover .project-image img {
+        transform: none;
+    }
+}
+
 /* Responsivo */
+@media (max-width: 991.98px) {
+    .about-image {
+        max-width: 420px;
+        margin: 0 auto;
+    }
+}
+
 @media (max-width: 768px) {
-    .hero-title {
-        font-size: 2.5rem;
+    .about-section,
+    .projects-section {
+        padding: 4rem 0;
     }
-    
-    .section-title {
-        font-size: 2rem;
+
+    .section-subtitle {
+        margin-bottom: 2rem;
     }
-    
+
+    .hero-description {
+        font-size: 1.05rem;
+    }
+
     .skills-list {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.6rem;
+        margin-top: 0.5rem;
     }
 
-    .about-carousel {
-        padding: 0.75rem 0 0;
+    .skill-item {
+        padding: 0.65rem 0.4rem;
+        font-size: 0.9rem;
     }
 
-    .about-carousel-header {
-        align-items: flex-start;
-        flex-direction: column;
+    .skill-item i {
+        font-size: 1.5rem;
+        margin-bottom: 0.25rem;
     }
 
-    .about-carousel-viewport {
-        min-height: 360px;
+    .about-text {
+        font-size: 1rem;
+    }
+
+    .about-video-thumb {
+        max-width: 100%;
     }
 
     .about-carousel-controls {
@@ -859,6 +1051,55 @@ body {
     .about-carousel-btn {
         width: 44px;
         height: 44px;
+    }
+
+    .project-image {
+        height: 200px;
+    }
+
+    .project-card .card-body {
+        padding: 1.5rem;
+    }
+
+    .project-card .card-title {
+        font-size: 1.3rem;
+    }
+
+    .contact-info {
+        padding: 1.5rem;
+    }
+
+    .social-links a {
+        margin: 0 0.6rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .hero-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .hero-actions .btn-custom {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        font-size: 0.85rem;
+    }
+
+    .about-carousel-dots {
+        gap: 0.5rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
 }
 
