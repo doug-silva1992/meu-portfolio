@@ -94,7 +94,7 @@ body {
     color: var(--primary-dark);
 }
 
-/* Seletor de idioma (PT / EN / ES) */
+/* Seletor de idioma (PT / EN / ES / IT) */
 /* Mesmo estilo dos links da navbar: texto discreto, ativo em teal com sublinhado */
 .lang-switch {
     --lang-index: 0;
