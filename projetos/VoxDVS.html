@@ -1,0 +1,1727 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VoxDVS · Demo</title>
+<meta name="description" content="Demonstração interativa do frontend do VoxDVS: painel, webphone e speech analytics." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232563eb'/%3E%3Cpath transform='translate(4 4)' d='M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+<style>
+/* ===== CSS original do frontend (frontend/src/index.css) ===== */
+:root {
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --surface-2: #f0f2f5;
+  --border: #e3e6eb;
+  --text: #4b5563;
+  --text-h: #111827;
+  --muted: #6b7280;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --accent-soft: rgba(37, 99, 235, 0.1);
+  --on-accent: #ffffff;
+  --danger: #dc2626;
+  --danger-soft: rgba(220, 38, 38, 0.1);
+  --positive: #16a34a;
+  --positive-soft: rgba(22, 163, 74, 0.12);
+  --neutral: #9ca3af;
+  --neutral-soft: rgba(156, 163, 175, 0.18);
+  --shadow: 0 1px 2px rgba(16, 24, 40, 0.05), 0 1px 3px rgba(16, 24, 40, 0.06);
+
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+  --radius: 10px;
+  --sidebar-w: 240px;
+
+  font: 15px/1.5 var(--sans);
+  color: var(--text);
+  background: var(--bg);
+  color-scheme: light dark;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1115;
+    --surface: #171a21;
+    --surface-2: #1f232c;
+    --border: #2a2f3a;
+    --text: #a8b0bd;
+    --text-h: #f3f4f6;
+    --muted: #8a93a3;
+    --accent: #3b82f6;
+    --accent-hover: #60a5fa;
+    --accent-soft: rgba(59, 130, 246, 0.16);
+    --danger: #f87171;
+    --danger-soft: rgba(248, 113, 113, 0.14);
+    --positive: #4ade80;
+    --positive-soft: rgba(74, 222, 128, 0.14);
+    --neutral: #6b7280;
+    --neutral-soft: rgba(107, 114, 128, 0.25);
+    --shadow: none;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+}
+
+h1,
+h2,
+h3 {
+  color: var(--text-h);
+  margin: 0;
+  line-height: 1.25;
+}
+
+a {
+  color: var(--accent);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.mono {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.page-loading {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  color: var(--muted);
+}
+
+/* ---------- Logo ---------- */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-h);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.logo-mark {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+/* ---------- Formulários / botões ---------- */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field > span {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.field input {
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text-h);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.field input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.field input[aria-invalid='true'] {
+  border-color: var(--danger);
+}
+
+.field-error {
+  color: var(--danger);
+  font-size: 13px;
+}
+
+.field-hint {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.btn {
+  height: 40px;
+  padding: 0 16px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.btn:focus-visible,
+.icon-btn:focus-visible,
+.nav-item:focus-visible,
+.segmented button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.alert {
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.alert-error {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+/* ---------- Login / cadastro ---------- */
+.auth-page {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: 24px 16px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 32px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+}
+
+.auth-brand {
+  margin-bottom: 24px;
+}
+
+.auth-card h1 {
+  font-size: 22px;
+}
+
+.auth-subtitle {
+  margin: 4px 0 24px;
+  color: var(--muted);
+}
+
+.auth-switch {
+  margin: 20px 0 0;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* ---------- Layout do PABX ---------- */
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  width: var(--sidebar-w);
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px;
+  overflow-y: auto;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav-item:hover {
+  background: var(--surface-2);
+  color: var(--text-h);
+}
+
+.nav-item.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.sidebar-backdrop {
+  display: none;
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+  margin-left: var(--sidebar-w);
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 60px;
+  padding: 0 24px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.topbar-spacer {
+  flex: 1;
+}
+
+.icon-btn {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.icon-btn:hover {
+  background: var(--surface-2);
+  color: var(--text-h);
+}
+
+.menu-toggle {
+  display: none;
+}
+
+.user-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.2;
+}
+
+.user-info strong {
+  color: var(--text-h);
+  font-size: 14px;
+}
+
+.user-info small {
+  color: var(--muted);
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.content {
+  max-width: 1200px;
+  padding: 28px 24px 48px;
+  margin: 0 auto;
+}
+
+.page-header {
+  margin-bottom: 24px;
+}
+
+.page-header h1 {
+  font-size: 24px;
+}
+
+.page-header p {
+  margin: 4px 0 0;
+  color: var(--muted);
+}
+
+.page-header .badge {
+  margin-top: 10px;
+}
+
+@media (max-width: 860px) {
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+  }
+
+  .menu-open .sidebar {
+    transform: none;
+  }
+
+  .menu-open .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 15;
+    background: rgba(0, 0, 0, 0.4);
+  }
+
+  .main {
+    margin-left: 0;
+  }
+
+  .menu-toggle {
+    display: grid;
+  }
+
+  .topbar,
+  .content {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .user-info {
+    display: none;
+  }
+}
+
+/* ---------- Cards ---------- */
+.card {
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.card + .card,
+.sa-grid + .card {
+  margin-top: 16px;
+}
+
+.card-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.card-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.card > .card-title {
+  margin-bottom: 16px;
+}
+
+.empty-state {
+  padding: 48px 20px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.empty-state p {
+  margin: 0;
+}
+
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.module-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-h);
+  text-decoration: none;
+  transition: border-color 0.15s;
+}
+
+.module-card:hover {
+  border-color: var(--accent);
+}
+
+.module-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+/* ---------- Badges / chips ---------- */
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-muted {
+  background: var(--surface-2);
+  color: var(--muted);
+}
+
+.badge-positivo {
+  background: var(--positive-soft);
+  color: var(--positive);
+}
+
+.badge-neutro {
+  background: var(--neutral-soft);
+  color: var(--text);
+}
+
+.badge-negativo {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  padding: 3px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 13px;
+}
+
+/* ---------- Speech Analytics ---------- */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.kpi {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.kpi-label {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.kpi-value {
+  color: var(--text-h);
+  font-size: 28px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
+.kpi-danger {
+  color: var(--danger);
+}
+
+.kpi-sub {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.sa-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.sa-grid > .card + .card {
+  margin-top: 0;
+}
+
+.sentiment-bar {
+  display: flex;
+  gap: 2px;
+  height: 14px;
+  overflow: hidden;
+  border-radius: 999px;
+}
+
+.seg {
+  min-width: 2px;
+}
+
+.seg-positivo,
+.dot-positivo {
+  background: var(--positive);
+}
+
+.seg-neutro,
+.dot-neutro {
+  background: var(--neutral);
+}
+
+.seg-negativo,
+.dot-negativo {
+  background: var(--danger);
+}
+
+.legend {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0;
+  margin: 16px 0 0;
+  list-style: none;
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend strong {
+  margin-left: auto;
+  color: var(--text-h);
+  font-variant-numeric: tabular-nums;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.keyword-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.keyword-list li {
+  display: grid;
+  grid-template-columns: 100px 1fr 32px;
+  align-items: center;
+  gap: 12px;
+}
+
+.keyword-list strong {
+  color: var(--text-h);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.keyword-bar {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--surface-2);
+}
+
+.keyword-bar > span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--danger);
+}
+
+.segmented {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 8px;
+  background: var(--surface-2);
+}
+
+.segmented button {
+  padding: 5px 12px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.segmented button.active {
+  background: var(--surface);
+  color: var(--text-h);
+  box-shadow: var(--shadow);
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.table th {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-h);
+  white-space: nowrap;
+}
+
+.table .num {
+  text-align: right;
+}
+
+.table tbody tr {
+  cursor: pointer;
+}
+
+.table tbody tr:hover,
+.table tbody tr.selected {
+  background: var(--surface-2);
+}
+
+.call-detail {
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: 8px;
+  background: var(--surface-2);
+}
+
+.call-detail h3 {
+  font-size: 14px;
+}
+
+.call-detail p {
+  margin: 6px 0 12px;
+}
+
+/* ---------- Webphone ---------- */
+.wp-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .wp-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.wp-phone {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.wp-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.wp-line > div {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.wp-line-label {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.wp-line strong {
+  color: var(--text-h);
+  font-size: 18px;
+}
+
+.wp-presence {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 4px 0 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.wp-presence select {
+  height: 32px;
+  border: 0;
+  background: transparent;
+  color: var(--text-h);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+}
+
+.wp-presence select option {
+  background: var(--surface);
+}
+
+.presence-disponivel {
+  background: var(--positive);
+}
+
+.presence-ausente {
+  background: #f59e0b;
+}
+
+.presence-offline {
+  background: var(--neutral);
+}
+
+.wp-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 112px;
+  padding: 16px;
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  text-align: center;
+}
+
+.wp-screen.status-active {
+  background: var(--positive-soft);
+}
+
+.wp-screen.status-ended {
+  background: var(--neutral-soft);
+}
+
+.wp-dial {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+}
+
+.wp-number {
+  width: 100%;
+  padding: 0 36px;
+  border: 0;
+  background: transparent;
+  color: var(--text-h);
+  font-size: 28px;
+  text-align: center;
+  outline: none;
+}
+
+.wp-number::placeholder {
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 18px;
+}
+
+.wp-backspace {
+  position: absolute;
+  top: 6px;
+  right: 0;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.wp-backspace:hover {
+  color: var(--text-h);
+}
+
+.wp-status {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.wp-remote {
+  color: var(--text-h);
+  font-size: 26px;
+}
+
+.wp-timer {
+  color: var(--text-h);
+  font-size: 15px;
+}
+
+.wp-dtmf {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.wp-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.wp-key {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 58px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text-h);
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.wp-key:hover:not(:disabled) {
+  background: var(--surface-2);
+}
+
+.wp-key:active:not(:disabled) {
+  background: var(--accent-soft);
+}
+
+.wp-key:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.wp-key-digit {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.wp-key-letters {
+  min-height: 14px;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+}
+
+.wp-actions {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  justify-items: center;
+}
+
+.wp-call {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--positive);
+  color: #fff;
+  cursor: pointer;
+}
+
+.wp-call:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.wp-hangup {
+  background: var(--danger);
+}
+
+.wp-ctrl {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.wp-ctrl:hover:not(:disabled) {
+  background: var(--surface-2);
+}
+
+.wp-ctrl.on {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.wp-ctrl:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.wp-key:focus-visible,
+.wp-call:focus-visible,
+.wp-ctrl:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.wp-empty {
+  margin: 0;
+  color: var(--muted);
+}
+
+.wp-history {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.wp-history li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.wp-history li:last-child {
+  border-bottom: 0;
+}
+
+.wp-history-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--positive-soft);
+  color: var(--positive);
+}
+
+.wp-history-icon.missed {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.wp-history-main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.3;
+}
+
+.wp-history-main strong {
+  color: var(--text-h);
+}
+
+.wp-history-main small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.icon-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ===== Extras da demo ===== */
+.kpi-grid > .card + .card,
+.wp-grid > .card + .card { margin-top: 0; }
+.demo-banner {
+  position: fixed;
+  left: 50%;
+  bottom: 16px;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: calc(100% - 32px);
+  padding: 8px 10px 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: 0 6px 24px rgba(16, 24, 40, 0.12);
+  color: var(--text);
+  font-size: 13px;
+  transform: translateX(-50%);
+}
+.demo-banner .dot { background: #f59e0b; flex-shrink: 0; }
+.demo-banner button {
+  padding: 4px 10px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--text-h);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.demo-banner button:hover { background: var(--accent-soft); color: var(--accent); }
+.demo-hint {
+  margin: 0 0 16px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 13px;
+}
+.content { padding-bottom: 96px; }
+@media (max-width: 520px) {
+  .demo-banner span.txt-long { display: none; }
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<div class="demo-banner" role="note">
+  <span class="dot" aria-hidden="true"></span>
+  <span><strong>Demo</strong><span class="txt-long"> · dados fictícios, sem backend</span></span>
+  <button type="button" id="demo-reset">Reiniciar</button>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---------------- Ícones (frontend/src/components/Icon.tsx) ---------------- */
+  var paths = {
+    dashboard: 'M3 3h7v9H3zM14 3h7v5h-7zM14 12h7v9h-7zM3 16h7v5H3z',
+    extensions: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8',
+    calls: 'M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z',
+    queues: 'M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01',
+    ivr: 'M6 3v12M18 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM6 21a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM18 9a9 9 0 0 1-9 9',
+    recordings: 'M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3zM19 10v2a7 7 0 0 1-14 0v-2M12 19v3',
+    speech: 'M2 10v3M6 6v11M10 3v18M14 8v7M18 5v13M22 10v3',
+    settings: 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z',
+    webphone: 'M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3',
+    phoneOff: 'M10.7 13.3a16 16 0 0 0 3.4 2.6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.4 19.4 0 0 1-3.3-2.7M5.3 15.4A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8M22 2 2 22',
+    mic: 'M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3zM19 10v2a7 7 0 0 1-14 0v-2M12 19v3',
+    micOff: 'M2 2l20 20M18.9 13.4A7 7 0 0 0 19 12v-2M5 10v2a7 7 0 0 0 12 5M15 9.3V5a3 3 0 0 0-5.7-1.3M9 9v3a3 3 0 0 0 5.1 2.1M12 19v3',
+    pause: 'M6 4h4v16H6zM14 4h4v16h-4z',
+    play: 'M6 3l14 9-14 9z',
+    backspace: 'M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zM18 9l-6 6M12 9l6 6',
+    logout: 'M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9',
+    menu: 'M3 12h18M3 6h18M3 18h18'
+  };
+
+  function icon(name, size) {
+    size = size || 18;
+    return '<svg viewBox="0 0 24 24" width="' + size + '" height="' + size + '" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + paths[name] + '"/></svg>';
+  }
+
+  function logo() {
+    return '<span class="logo"><span class="logo-mark" aria-hidden="true">' + icon('calls', 18) + '</span><span class="logo-text">VoxDVS</span></span>';
+  }
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  /* ---------------- Menu (frontend/src/layouts/menu.ts) ---------------- */
+  var menu = [
+    { to: 'pabx', label: 'Painel', icon: 'dashboard', end: true },
+    { to: 'pabx/webphone', label: 'Webphone', icon: 'webphone' },
+    { to: 'pabx/ramais', label: 'Ramais', icon: 'extensions' },
+    { to: 'pabx/chamadas', label: 'Chamadas', icon: 'calls' },
+    { to: 'pabx/filas', label: 'Filas', icon: 'queues' },
+    { to: 'pabx/ura', label: 'URA', icon: 'ivr' },
+    { to: 'pabx/gravacoes', label: 'Gravações', icon: 'recordings' },
+    { to: 'pabx/speech-analytics', label: 'Speech Analytics', icon: 'speech' },
+    { to: 'pabx/configuracoes', label: 'Configurações', icon: 'settings' }
+  ];
+
+  /* ---------------- Autenticação simulada ---------------- */
+  var DEMO_USER = { name: 'Visitante Demo', email: 'demo@pabx.dev' };
+  var user = null;
+  try { user = JSON.parse(sessionStorage.getItem('pabx-demo-user') || 'null'); } catch (e) { user = null; }
+
+  function setUser(u) {
+    user = u;
+    try {
+      if (u) sessionStorage.setItem('pabx-demo-user', JSON.stringify(u));
+      else sessionStorage.removeItem('pabx-demo-user');
+    } catch (e) { /* armazenamento indisponível: segue em memória */ }
+  }
+
+  /* ---------------- Roteamento por hash ---------------- */
+  var root = document.getElementById('root');
+  var menuOpen = false;
+
+  function currentPath() {
+    return location.hash.replace(/^#\/?/, '') || 'login';
+  }
+
+  function go(path) {
+    if (currentPath() === path) render();
+    else location.hash = '#/' + path;
+  }
+
+  function render() {
+    var path = currentPath();
+    var guestRoutes = ['login', 'cadastro'];
+
+    if (guestRoutes.indexOf(path) >= 0) {
+      if (user) return go('pabx');
+      cleanupPage();
+      return path === 'login' ? renderLogin() : renderRegister();
+    }
+
+    var item = menu.filter(function (m) { return m.to === path; })[0];
+    if (!item) return go(user ? 'pabx' : 'login');
+    if (!user) return go('login');
+
+    renderShell(item);
+  }
+
+  var pageCleanup = null;
+  function cleanupPage() {
+    if (pageCleanup) { pageCleanup(); pageCleanup = null; }
+  }
+
+  /* ---------------- Login / cadastro ---------------- */
+  function authLayout(title, subtitle, body) {
+    return '<main class="auth-page"><div class="auth-card"><div class="auth-brand">' + logo() + '</div>' +
+      '<h1>' + title + '</h1><p class="auth-subtitle">' + subtitle + '</p>' + body + '</div></main>';
+  }
+
+  function renderLogin() {
+    root.innerHTML = authLayout('Entrar', 'Acesse o painel do seu PABX',
+      '<p class="demo-hint">Demo: as credenciais já estão preenchidas — é só clicar em Entrar.</p>' +
+      '<form class="form" id="login-form" novalidate>' +
+        '<div id="form-error"></div>' +
+        '<label class="field"><span>E-mail</span><input type="email" name="email" autocomplete="email" value="' + DEMO_USER.email + '" required /></label>' +
+        '<label class="field"><span>Senha</span><input type="password" name="password" autocomplete="current-password" value="demo1234" required /></label>' +
+        '<button class="btn btn-primary" type="submit">Entrar</button>' +
+      '</form>' +
+      '<p class="auth-switch">Ainda não tem conta? <a href="#/cadastro">Criar usuário</a></p>');
+
+    var form = document.getElementById('login-form');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var email = form.email.value.trim();
+      var password = form.password.value;
+      var errBox = document.getElementById('form-error');
+      if (!email || !password) {
+        errBox.innerHTML = '<div class="alert alert-error">Informe e-mail e senha.</div>';
+        return;
+      }
+      var btn = form.querySelector('button');
+      btn.disabled = true;
+      btn.textContent = 'Entrando...';
+      setTimeout(function () {
+        setUser(email === DEMO_USER.email ? DEMO_USER : { name: nameFromEmail(email), email: email });
+        go('pabx');
+      }, 600);
+    });
+  }
+
+  function nameFromEmail(email) {
+    var base = email.split('@')[0].replace(/[._-]+/g, ' ').trim() || 'Usuário';
+    return base.split(' ').map(function (p) { return p.charAt(0).toUpperCase() + p.slice(1); }).join(' ');
+  }
+
+  function renderRegister() {
+    var fields = [
+      { key: 'name', label: 'Nome', type: 'text', ac: 'name' },
+      { key: 'email', label: 'E-mail', type: 'email', ac: 'email' },
+      { key: 'password', label: 'Senha', type: 'password', ac: 'new-password', hint: 'Mínimo de 8 caracteres' },
+      { key: 'password_confirmation', label: 'Confirmar senha', type: 'password', ac: 'new-password' }
+    ];
+
+    root.innerHTML = authLayout('Criar usuário', 'Cadastre-se para acessar o PABX',
+      '<form class="form" id="register-form" novalidate>' +
+        fields.map(function (f) {
+          return '<label class="field"><span>' + f.label + '</span>' +
+            '<input type="' + f.type + '" name="' + f.key + '" autocomplete="' + f.ac + '" />' +
+            '<small class="' + (f.hint ? 'field-hint' : 'field-error') + '" data-for="' + f.key + '" data-hint="' + (f.hint || '') + '">' + (f.hint || '') + '</small>' +
+            '</label>';
+        }).join('') +
+        '<button class="btn btn-primary" type="submit">Criar usuário</button>' +
+      '</form>' +
+      '<p class="auth-switch">Já tem conta? <a href="#/login">Entrar</a></p>');
+
+    var form = document.getElementById('register-form');
+
+    function setError(key, msg) {
+      var input = form[key];
+      var small = form.querySelector('[data-for="' + key + '"]');
+      input.setAttribute('aria-invalid', msg ? 'true' : 'false');
+      if (msg) { small.className = 'field-error'; small.textContent = msg; }
+      else { small.className = small.dataset.hint ? 'field-hint' : 'field-error'; small.textContent = small.dataset.hint; }
+    }
+
+    form.addEventListener('input', function (e) { if (e.target.name) setError(e.target.name, ''); });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var v = {};
+      fields.forEach(function (f) { v[f.key] = form[f.key].value; setError(f.key, ''); });
+      var errors = {};
+      if (!v.name.trim()) errors.name = 'O campo nome é obrigatório.';
+      if (!/^\S+@\S+\.\S+$/.test(v.email)) errors.email = 'Informe um e-mail válido.';
+      if (v.password.length < 8) errors.password = 'A senha deve ter pelo menos 8 caracteres.';
+      else if (v.password !== v.password_confirmation) errors.password_confirmation = 'As senhas não conferem.';
+      var keys = Object.keys(errors);
+      if (keys.length) { keys.forEach(function (k) { setError(k, errors[k]); }); return; }
+
+      var btn = form.querySelector('button');
+      btn.disabled = true;
+      btn.textContent = 'Criando...';
+      setTimeout(function () {
+        setUser({ name: v.name.trim(), email: v.email.trim() });
+        go('pabx');
+      }, 600);
+    });
+  }
+
+  /* ---------------- Layout do PABX ---------------- */
+  function renderShell(active) {
+    cleanupPage();
+    var initials = user.name.split(' ').filter(Boolean).slice(0, 2).map(function (p) { return p[0].toUpperCase(); }).join('');
+
+    root.innerHTML =
+      '<div class="app-shell' + (menuOpen ? ' menu-open' : '') + '" id="shell">' +
+        '<aside class="sidebar"><div class="sidebar-brand">' + logo() + '</div>' +
+          '<nav class="sidebar-nav" aria-label="Menu do PABX">' +
+            menu.map(function (m) {
+              return '<a href="#/' + m.to + '" class="nav-item' + (m === active ? ' active' : '') + '"' + (m === active ? ' aria-current="page"' : '') + '>' + icon(m.icon) + '<span>' + m.label + '</span></a>';
+            }).join('') +
+          '</nav></aside>' +
+        '<div class="sidebar-backdrop" id="backdrop"></div>' +
+        '<div class="main">' +
+          '<header class="topbar">' +
+            '<button class="icon-btn menu-toggle" id="menu-toggle" aria-label="Abrir menu">' + icon('menu') + '</button>' +
+            '<div class="topbar-spacer"></div>' +
+            '<div class="user-chip"><span class="avatar" aria-hidden="true">' + esc(initials) + '</span>' +
+              '<span class="user-info"><strong>' + esc(user.name) + '</strong><small>' + esc(user.email) + '</small></span></div>' +
+            '<button class="icon-btn" id="logout" title="Sair" aria-label="Sair">' + icon('logout') + '</button>' +
+          '</header>' +
+          '<main class="content" id="page"></main>' +
+        '</div>' +
+      '</div>';
+
+    var shell = document.getElementById('shell');
+    function setMenu(open) { menuOpen = open; shell.classList.toggle('menu-open', open); }
+    document.getElementById('menu-toggle').onclick = function () { setMenu(!menuOpen); };
+    document.getElementById('backdrop').onclick = function () { setMenu(false); };
+    shell.querySelectorAll('.nav-item').forEach(function (a) { a.addEventListener('click', function () { setMenu(false); }); });
+    document.getElementById('logout').onclick = function () { setUser(null); go('login'); };
+
+    var page = document.getElementById('page');
+    if (active.to === 'pabx') renderDashboard(page);
+    else if (active.to === 'pabx/webphone') renderWebphone(page);
+    else if (active.to === 'pabx/speech-analytics') renderSpeech(page);
+    else renderPlaceholder(page, active.label);
+    window.scrollTo(0, 0);
+  }
+
+  /* ---------------- Painel ---------------- */
+  function renderDashboard(page) {
+    page.innerHTML =
+      '<div class="page-header"><h1>Olá, ' + esc(user.name.split(' ')[0]) + '</h1>' +
+      '<p>Bem-vindo ao painel do PABX. Escolha um módulo para começar.</p></div>' +
+      '<div class="module-grid">' +
+        menu.filter(function (m) { return !m.end; }).map(function (m) {
+          return '<a href="#/' + m.to + '" class="module-card"><span class="module-icon">' + icon(m.icon, 20) + '</span><strong>' + m.label + '</strong></a>';
+        }).join('') +
+      '</div>';
+  }
+
+  function renderPlaceholder(page, title) {
+    page.innerHTML = '<div class="page-header"><h1>' + title + '</h1></div>' +
+      '<div class="card empty-state"><p>Este módulo ainda está em desenvolvimento.</p></div>';
+  }
+
+  /* ---------------- Webphone (simulado, frontend/src/webphone/useSoftphone.ts) ---------------- */
+  var RING_MS = 2500, ENDED_MS = 1500;
+  var keys = [
+    ['1', ''], ['2', 'ABC'], ['3', 'DEF'], ['4', 'GHI'], ['5', 'JKL'], ['6', 'MNO'],
+    ['7', 'PQRS'], ['8', 'TUV'], ['9', 'WXYZ'], ['*', ''], ['0', '+'], ['#', '']
+  ];
+  var presenceLabel = { disponivel: 'Disponível', ausente: 'Ausente', offline: 'Offline' };
+  var statusLabel = { idle: 'Pronto para ligar', calling: 'Chamando...', active: 'Em chamada', ended: 'Chamada encerrada' };
+
+  function minutesAgo(m) { return new Date(Date.now() - m * 60000); }
+
+  function initialPhone() {
+    return {
+      extension: '1001', presence: 'disponivel', status: 'idle', number: '', remoteNumber: '',
+      muted: false, onHold: false, elapsed: 0, dtmf: '', callStart: null, answered: false,
+      history: [
+        { id: 3, number: '1002', direction: 'saida', startedAt: minutesAgo(12), durationSec: 134, answered: true },
+        { id: 2, number: '11987654321', direction: 'entrada', startedAt: minutesAgo(47), durationSec: 0, answered: false },
+        { id: 1, number: '2130045000', direction: 'saida', startedAt: minutesAgo(95), durationSec: 412, answered: true }
+      ]
+    };
+  }
+
+  var phone = initialPhone();
+  var phoneTimers = [];
+  var tickId = null;
+  var phoneRender = null;
+
+  function clearPhoneTimers() { phoneTimers.forEach(clearTimeout); phoneTimers = []; }
+  function stopTick() { if (tickId) { clearInterval(tickId); tickId = null; } }
+  function rerenderPhone() { if (phoneRender) phoneRender(); }
+
+  function fmtDuration(t) { return String(Math.floor(t / 60)).padStart(2, '0') + ':' + String(t % 60).padStart(2, '0'); }
+  function fmtTime(d) { return d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }); }
+
+  function phoneCall(number) {
+    if (!number || phone.status !== 'idle' || phone.presence === 'offline') return;
+    clearPhoneTimers();
+    Object.assign(phone, { remoteNumber: number, status: 'calling', elapsed: 0, dtmf: '', muted: false, onHold: false, callStart: new Date(), answered: false });
+    phoneTimers.push(setTimeout(function () {
+      phone.answered = true;
+      phone.status = 'active';
+      tickId = setInterval(function () { phone.elapsed++; updateTimer(); }, 1000);
+      rerenderPhone();
+    }, RING_MS));
+    rerenderPhone();
+  }
+
+  function phoneHangup() {
+    if (phone.status !== 'calling' && phone.status !== 'active') return;
+    clearPhoneTimers();
+    stopTick();
+    phone.history.unshift({
+      id: Date.now(), number: phone.remoteNumber, direction: 'saida',
+      startedAt: phone.callStart || new Date(), durationSec: phone.answered ? phone.elapsed : 0, answered: phone.answered
+    });
+    phone.history = phone.history.slice(0, 20);
+    phone.status = 'ended';
+    phoneTimers.push(setTimeout(function () { phone.status = 'idle'; rerenderPhone(); }, ENDED_MS));
+    rerenderPhone();
+  }
+
+  function updateTimer() {
+    var el = document.getElementById('wp-timer');
+    if (el) el.textContent = fmtDuration(phone.elapsed) + (phone.onHold ? ' · em espera' : '');
+  }
+
+  function renderWebphone(page) {
+    page.innerHTML =
+      '<div class="page-header"><h1>Webphone</h1>' +
+      '<p>Faça e receba chamadas pelo navegador usando seu ramal.</p>' +
+      '<span class="badge badge-muted">Modo simulação · sem servidor SIP conectado</span></div>' +
+      '<div class="wp-grid"><section class="card wp-phone" id="wp-phone"></section>' +
+      '<section class="card"><h2 class="card-title">Chamadas recentes</h2><div id="wp-history"></div></section></div>';
+
+    var phoneEl = document.getElementById('wp-phone');
+    var histEl = document.getElementById('wp-history');
+
+    function draw() {
+      var inCall = phone.status === 'calling' || phone.status === 'active';
+      var offline = phone.presence === 'offline';
+      var focused = document.activeElement && document.activeElement.id === 'wp-number';
+
+      var screen;
+      if (inCall || phone.status === 'ended') {
+        screen = '<span class="wp-status">' + statusLabel[phone.status] + '</span>' +
+          '<strong class="wp-remote mono">' + esc(phone.remoteNumber) + '</strong>' +
+          '<span class="wp-timer mono" id="wp-timer">' + (phone.status === 'calling' ? '··· ' : fmtDuration(phone.elapsed)) +
+            (phone.onHold && phone.status === 'active' ? ' · em espera' : '') + '</span>' +
+          (phone.dtmf ? '<span class="wp-dtmf mono">DTMF: ' + esc(phone.dtmf) + '</span>' : '');
+      } else {
+        screen = '<form class="wp-dial" id="wp-dial">' +
+          '<input class="wp-number mono" id="wp-number" value="' + esc(phone.number) + '" placeholder="Número ou ramal" inputmode="tel" aria-label="Número para discar"' + (offline ? ' disabled' : '') + ' />' +
+          (phone.number ? '<button type="button" class="wp-backspace" id="wp-back" aria-label="Apagar dígito">' + icon('backspace') + '</button>' : '') +
+          '<span class="wp-status">' + (offline ? 'Ramal offline' : statusLabel.idle) + '</span></form>';
+      }
+
+      var keyDisabled = offline || phone.status === 'calling' || phone.status === 'ended';
+      var notActive = phone.status !== 'active';
+
+      phoneEl.innerHTML =
+        '<div class="wp-line"><div><span class="wp-line-label">Ramal</span><strong class="mono">' + phone.extension + '</strong></div>' +
+          '<label class="wp-presence"><span class="dot presence-' + phone.presence + '" aria-hidden="true"></span>' +
+          '<select id="wp-presence" aria-label="Status do ramal"' + (inCall ? ' disabled' : '') + '>' +
+            Object.keys(presenceLabel).map(function (p) { return '<option value="' + p + '"' + (p === phone.presence ? ' selected' : '') + '>' + presenceLabel[p] + '</option>'; }).join('') +
+          '</select></label></div>' +
+        '<div class="wp-screen status-' + phone.status + '" aria-live="polite">' + screen + '</div>' +
+        '<div class="wp-keypad" role="group" aria-label="Teclado">' +
+          keys.map(function (k) {
+            return '<button type="button" class="wp-key" data-digit="' + k[0] + '"' + (keyDisabled ? ' disabled' : '') + '>' +
+              '<span class="wp-key-digit">' + k[0] + '</span><span class="wp-key-letters">' + k[1] + '</span></button>';
+          }).join('') +
+        '</div>' +
+        '<div class="wp-actions">' +
+          '<button type="button" class="wp-ctrl' + (phone.muted ? ' on' : '') + '" id="wp-mute" aria-pressed="' + phone.muted + '" title="' + (phone.muted ? 'Ativar microfone' : 'Silenciar') + '"' + (notActive ? ' disabled' : '') + '>' +
+            icon(phone.muted ? 'micOff' : 'mic') + '<span>Mudo</span></button>' +
+          (inCall
+            ? '<button type="button" class="wp-call wp-hangup" id="wp-hangup" aria-label="Desligar">' + icon('phoneOff', 24) + '</button>'
+            : '<button type="button" class="wp-call" id="wp-call" aria-label="Ligar"' + (!phone.number || offline || phone.status === 'ended' ? ' disabled' : '') + '>' + icon('calls', 24) + '</button>') +
+          '<button type="button" class="wp-ctrl' + (phone.onHold ? ' on' : '') + '" id="wp-hold" aria-pressed="' + phone.onHold + '" title="' + (phone.onHold ? 'Retomar chamada' : 'Colocar em espera') + '"' + (notActive ? ' disabled' : '') + '>' +
+            icon(phone.onHold ? 'play' : 'pause') + '<span>' + (phone.onHold ? 'Retomar' : 'Espera') + '</span></button>' +
+        '</div>';
+
+      var callDisabled = inCall || offline || phone.status === 'ended';
+      histEl.innerHTML = phone.history.length === 0
+        ? '<p class="wp-empty">Nenhuma chamada nesta sessão.</p>'
+        : '<ul class="wp-history">' + phone.history.map(function (c) {
+            return '<li><span class="wp-history-icon' + (c.answered ? '' : ' missed') + '">' + icon(c.answered ? 'calls' : 'phoneOff', 16) + '</span>' +
+              '<span class="wp-history-main"><strong class="mono">' + esc(c.number) + '</strong>' +
+              '<small>' + (c.direction === 'saida' ? 'Realizada' : 'Recebida') + ' · ' + fmtTime(c.startedAt) +
+              (c.answered ? ' · ' + fmtDuration(c.durationSec) : ' · não atendida') + '</small></span>' +
+              '<button type="button" class="icon-btn" data-redial="' + esc(c.number) + '" aria-label="Ligar para ' + esc(c.number) + '" title="Ligar novamente"' + (callDisabled ? ' disabled' : '') + '>' + icon('calls', 16) + '</button></li>';
+          }).join('') + '</ul>';
+
+      // Eventos
+      var input = document.getElementById('wp-number');
+      if (input) {
+        input.addEventListener('input', function () {
+          var pos = input.selectionStart;
+          phone.number = input.value.replace(/[^\d*#+]/g, '').slice(0, 20);
+          draw();
+          var again = document.getElementById('wp-number');
+          again.focus();
+          try { again.setSelectionRange(pos, pos); } catch (e) {}
+        });
+        if (focused) input.focus();
+      }
+      var dial = document.getElementById('wp-dial');
+      if (dial) dial.addEventListener('submit', function (e) { e.preventDefault(); phoneCall(phone.number.trim()); });
+      var back = document.getElementById('wp-back');
+      if (back) back.onclick = function () { phone.number = phone.number.slice(0, -1); draw(); };
+
+      document.getElementById('wp-presence').onchange = function (e) { phone.presence = e.target.value; draw(); };
+      phoneEl.querySelectorAll('.wp-key').forEach(function (b) {
+        b.onclick = function () {
+          var d = b.dataset.digit;
+          if (phone.status === 'active') phone.dtmf = (phone.dtmf + d).slice(-16);
+          else if (!inCall) phone.number = (phone.number + d).slice(0, 20);
+          draw();
+        };
+      });
+      document.getElementById('wp-mute').onclick = function () { phone.muted = !phone.muted; draw(); };
+      document.getElementById('wp-hold').onclick = function () { phone.onHold = !phone.onHold; draw(); };
+      var callBtn = document.getElementById('wp-call');
+      if (callBtn) callBtn.onclick = function () { phoneCall(phone.number.trim()); };
+      var hang = document.getElementById('wp-hangup');
+      if (hang) hang.onclick = phoneHangup;
+      histEl.querySelectorAll('[data-redial]').forEach(function (b) {
+        b.onclick = function () { phone.number = b.dataset.redial; phoneCall(phone.number); };
+      });
+    }
+
+    phoneRender = draw;
+    pageCleanup = function () { phoneRender = null; };
+    draw();
+  }
+
+  /* ---------------- Speech Analytics (frontend/src/pages/pabx/SpeechAnalyticsPage.tsx) ---------------- */
+  var calls = [
+    { id: 1, date: '07/11 14:32', agent: 'Ana Souza', caller: '(11) 98765-4321', duration: '04:12', sentiment: 'positivo', score: 92, keywords: ['obrigado', 'resolvido'], summary: 'Cliente pediu segunda via do boleto; atendimento rápido e resolvido.' },
+    { id: 2, date: '07/11 14:05', agent: 'Bruno Lima', caller: '(21) 99876-5432', duration: '11:47', sentiment: 'negativo', score: 38, keywords: ['cancelar', 'reclamação', 'Procon'], summary: 'Cliente insatisfeito com cobrança duplicada e ameaçou cancelar.' },
+    { id: 3, date: '07/11 13:41', agent: 'Carla Mendes', caller: '(31) 3456-7890', duration: '06:20', sentiment: 'neutro', score: 71, keywords: ['prazo', 'entrega'], summary: 'Consulta sobre prazo de entrega; informação fornecida.' },
+    { id: 4, date: '07/11 12:58', agent: 'Ana Souza', caller: '(11) 3333-2222', duration: '02:54', sentiment: 'positivo', score: 88, keywords: ['upgrade', 'plano'], summary: 'Cliente contratou upgrade de plano.' },
+    { id: 5, date: '07/11 12:20', agent: 'Diego Rocha', caller: '(41) 99111-2233', duration: '09:03', sentiment: 'negativo', score: 45, keywords: ['demora', 'cancelar'], summary: 'Reclamação sobre tempo de espera na fila.' },
+    { id: 6, date: '07/11 11:47', agent: 'Bruno Lima', caller: '(51) 98222-3344', duration: '05:31', sentiment: 'neutro', score: 66, keywords: ['endereço', 'cadastro'], summary: 'Atualização de endereço de cadastro.' },
+    { id: 7, date: '07/11 11:12', agent: 'Carla Mendes', caller: '(11) 97444-5566', duration: '03:18', sentiment: 'positivo', score: 95, keywords: ['excelente', 'obrigado'], summary: 'Elogio ao suporte técnico após resolução de problema.' }
+  ];
+  var keywordAlerts = [
+    { word: 'cancelar', count: 18 }, { word: 'reclamação', count: 11 },
+    { word: 'demora', count: 9 }, { word: 'Procon', count: 3 }
+  ];
+  var sentimentLabel = { positivo: 'Positivo', neutro: 'Neutro', negativo: 'Negativo' };
+  var saState = { filter: 'todos', selected: null };
+
+  function renderSpeech(page) {
+    var count = function (s) { return calls.filter(function (c) { return c.sentiment === s; }).length; };
+    var stats = {
+      total: calls.length,
+      avg: Math.round(calls.reduce(function (s, c) { return s + c.score; }, 0) / calls.length),
+      positivo: count('positivo'), neutro: count('neutro'), negativo: count('negativo')
+    };
+    var pct = function (n) { return Math.round((n / stats.total) * 100); };
+
+    page.innerHTML =
+      '<div class="page-header"><h1>Speech Analytics</h1>' +
+      '<p>Transcrição e análise de sentimento das chamadas atendidas.</p>' +
+      '<span class="badge badge-muted">Dados de exemplo</span></div>' +
+      '<div class="kpi-grid">' +
+        kpi('Chamadas analisadas', stats.total, 'hoje') +
+        kpi('Nota média de satisfação', stats.avg, 'de 100') +
+        kpi('Sentimento positivo', pct(stats.positivo) + '%', stats.positivo + ' chamadas') +
+        kpi('Risco de cancelamento', stats.negativo, 'chamadas com sentimento negativo', true) +
+      '</div>' +
+      '<div class="sa-grid">' +
+        '<section class="card"><h2 class="card-title">Distribuição de sentimento</h2>' +
+          '<div class="sentiment-bar" role="img" aria-label="Positivo ' + pct(stats.positivo) + '%, neutro ' + pct(stats.neutro) + '%, negativo ' + pct(stats.negativo) + '%">' +
+            '<span class="seg seg-positivo" style="flex-grow:' + stats.positivo + '"></span>' +
+            '<span class="seg seg-neutro" style="flex-grow:' + stats.neutro + '"></span>' +
+            '<span class="seg seg-negativo" style="flex-grow:' + stats.negativo + '"></span>' +
+          '</div><ul class="legend">' +
+            ['positivo', 'neutro', 'negativo'].map(function (s) {
+              return '<li><span class="dot dot-' + s + '"></span> ' + sentimentLabel[s] + '<strong>' + pct(stats[s]) + '%</strong></li>';
+            }).join('') +
+          '</ul></section>' +
+        '<section class="card"><h2 class="card-title">Palavras-chave de alerta</h2><ul class="keyword-list">' +
+          keywordAlerts.map(function (k) {
+            return '<li><span>' + k.word + '</span><span class="keyword-bar"><span style="width:' + (k.count / keywordAlerts[0].count) * 100 + '%"></span></span><strong>' + k.count + '</strong></li>';
+          }).join('') +
+        '</ul></section>' +
+      '</div>' +
+      '<section class="card"><div class="card-header"><h2 class="card-title">Chamadas recentes</h2>' +
+        '<div class="segmented" role="group" aria-label="Filtrar por sentimento" id="sa-filter">' +
+          ['todos', 'positivo', 'neutro', 'negativo'].map(function (f) {
+            return '<button data-filter="' + f + '">' + (f === 'todos' ? 'Todos' : sentimentLabel[f]) + '</button>';
+          }).join('') +
+        '</div></div>' +
+        '<div class="table-wrap"><table class="table"><thead><tr><th>Data</th><th>Agente</th><th>Origem</th><th>Duração</th><th>Sentimento</th><th class="num">Nota</th></tr></thead>' +
+        '<tbody id="sa-rows"></tbody></table></div><div id="sa-detail"></div></section>';
+
+    function kpi(label, value, sub, danger) {
+      return '<div class="card kpi"><span class="kpi-label">' + label + '</span><strong class="kpi-value' + (danger ? ' kpi-danger' : '') + '">' + value + '</strong><span class="kpi-sub">' + sub + '</span></div>';
+    }
+
+    function drawTable() {
+      document.querySelectorAll('#sa-filter button').forEach(function (b) {
+        b.className = b.dataset.filter === saState.filter ? 'active' : '';
+      });
+      var visible = saState.filter === 'todos' ? calls : calls.filter(function (c) { return c.sentiment === saState.filter; });
+      document.getElementById('sa-rows').innerHTML = visible.map(function (c) {
+        return '<tr data-id="' + c.id + '" class="' + (saState.selected === c.id ? 'selected' : '') + '" tabindex="0">' +
+          '<td>' + c.date + '</td><td>' + c.agent + '</td><td class="mono">' + c.caller + '</td><td class="mono">' + c.duration + '</td>' +
+          '<td><span class="badge badge-' + c.sentiment + '">' + sentimentLabel[c.sentiment] + '</span></td>' +
+          '<td class="num mono">' + c.score + '</td></tr>';
+      }).join('');
+      var sel = calls.filter(function (c) { return c.id === saState.selected; })[0];
+      document.getElementById('sa-detail').innerHTML = sel
+        ? '<div class="call-detail"><h3>Resumo da chamada · ' + sel.agent + '</h3><p>' + sel.summary + '</p><div class="chips">' +
+            sel.keywords.map(function (k) { return '<span class="chip">' + k + '</span>'; }).join('') + '</div></div>'
+        : '';
+    }
+
+    document.getElementById('sa-filter').addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (b) { saState.filter = b.dataset.filter; drawTable(); }
+    });
+    var rows = document.getElementById('sa-rows');
+    function pick(e) {
+      var tr = e.target.closest('tr');
+      if (tr) { saState.selected = Number(tr.dataset.id); drawTable(); }
+    }
+    rows.addEventListener('click', pick);
+    rows.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(e); } });
+    drawTable();
+  }
+
+  /* ---------------- Inicialização ---------------- */
+  document.getElementById('demo-reset').onclick = function () {
+    clearPhoneTimers();
+    stopTick();
+    phone = initialPhone();
+    saState = { filter: 'todos', selected: null };
+    menuOpen = false;
+    setUser(null);
+    go('login');
+  };
+
+  window.addEventListener('hashchange', render);
+  render();
+})();
+</script>
+</body>
+</html>
